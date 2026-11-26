@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_weekly_plan" model="ir.actions.report">
+        <field name="name">Weekly Plan</field>
+        <field name="model">ems.weekly.plan.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ems_planning.report_weekly_plan</field>
+    </record>
+    <template id="report_weekly_plan">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Weekly Plan: <span t-out="start"/> to <span t-out="end"/></h2>
+                    <t t-foreach="by_employee.items()" t-as="item">
+                        <h4 t-out="item[0].name"/>
+                        <table class="table table-sm">
+                            <thead><tr><th>Project</th><th>Action</th><th>From</th><th>To</th><th class="text-end">h/day</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="item[1]" t-as="a">
+                                    <td><span t-out="a.project_id.display_name"/></td>
+                                    <td><span t-out="a.name"/><t t-if="a.tentative"> (tentative)</t></td>
+                                    <td><span t-out="a.date_from"/></td>
+                                    <td><span t-out="a.date_to"/></td>
+                                    <td class="text-end"><span t-out="a.hours_per_day"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <p t-if="not by_employee">No allocations this week.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

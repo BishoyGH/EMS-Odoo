@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_offer_list" model="ir.ui.view">
+        <field name="name">ems.offer.list</field>
+        <field name="model">ems.offer</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'accepted'" decoration-muted="state in ('declined', 'withdrawn', 'expired')">
+                <field name="name"/>
+                <field name="candidate"/>
+                <field name="job_id"/>
+                <field name="grade_id"/>
+                <field name="offer_date"/>
+                <field name="start_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_offer_form" model="ir.ui.view">
+        <field name="name">ems.offer.form</field>
+        <field name="model">ems.offer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send" string="Mark Sent" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_accept" string="Accepted" type="object" invisible="state != 'sent'"/>
+                    <button name="action_decline" string="Declined" type="object" invisible="state != 'sent'"/>
+                    <button name="action_withdraw" string="Withdraw" type="object" invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_create_employee" string="Create Employee" type="object" invisible="state != 'accepted' or employee_id"/>
+                    <button name="action_reset" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,accepted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="candidate"/>
+                            <field name="candidate_email"/>
+                            <field name="job_id"/>
+                            <field name="grade_id"/>
+                            <field name="department_id"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="offer_date"/>
+                            <field name="valid_until"/>
+                            <field name="start_date"/>
+                            <field name="signatory_id"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="employee_id" readonly="1" invisible="not employee_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Terms" name="terms">
+                            <group>
+                                <group string="Monthly Package" groups="ems_base.group_ems_rates">
+                                    <field name="salary_basic"/>
+                                    <field name="salary_housing"/>
+                                    <field name="salary_transport"/>
+                                    <field name="salary_other"/>
+                                    <field name="salary_total"/>
+                                </group>
+                                <group string="Conditions">
+                                    <field name="probation_months"/>
+                                    <field name="notice_days"/>
+                                    <field name="leave_days"/>
+                                    <field name="air_ticket"/>
+                                    <field name="non_compete"/>
+                                </group>
+                            </group>
+                            <field name="benefits" placeholder="Other benefits..."/>
+                        </page>
+                        <page string="Job Description" name="jd"><field name="job_description"/></page>
+                        <page string="Letter" name="letter"><field name="letter_body"/></page>
+                        <page string="Notes" name="notes"><field name="notes"/></page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_ems_offer" model="ir.actions.act_window">
+        <field name="name">Offer Letters</field>
+        <field name="res_model">ems.offer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

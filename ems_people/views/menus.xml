@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_people_root" name="EMS People" sequence="60"
+              groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_employees" name="Employees" parent="menu_ems_people_root" action="action_ems_employees" sequence="10"/>
+    <menuitem id="menu_ems_leave" name="Leave &amp; Holidays" parent="menu_ems_people_root" sequence="20"/>
+    <menuitem id="menu_ems_leave_requests" name="Leave" parent="menu_ems_leave" action="action_ems_leave" sequence="10"/>
+    <menuitem id="menu_ems_holidays" name="Public Holidays" parent="menu_ems_leave" action="action_ems_holidays" sequence="20"/>
+    <menuitem id="menu_ems_grades" name="Grades &amp; Rates" parent="menu_ems_people_root" action="action_ems_grade" sequence="30"/>
+    <menuitem id="menu_ems_offers" name="Offer Letters" parent="menu_ems_people_root" action="action_ems_offer" sequence="40"
+              groups="ems_base.group_ems_manager"/>
+    <menuitem id="menu_ems_onboarding" name="Onboarding" parent="menu_ems_people_root" action="action_ems_onboarding" sequence="50"/>
+    <menuitem id="menu_ems_roles" name="Roles &amp; Job Descriptions" parent="menu_ems_people_root" action="action_ems_roles" sequence="60"/>
+</odoo>

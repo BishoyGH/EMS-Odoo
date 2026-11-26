@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ems_base.project_szr" model="project.project">
+        <field name="allow_milestones" eval="True"/>
+    </record>
+    <record id="svc_review" model="ems.project.service">
+        <field name="project_id" ref="ems_base.project_szr"/><field name="code">01</field>
+        <field name="name">Structural design review (items 1-7)</field><field name="discipline">Structural</field>
+        <field name="fee">125000</field><field name="budget_hours">400</field><field name="state">active</field>
+    </record>
+    <record id="ms_szr_1" model="project.milestone"><field name="name">Initial review (2 weeks)</field><field name="project_id" ref="ems_base.project_szr"/><field name="ems_service_id" ref="svc_review"/><field name="ems_budget_hours">120</field></record>
+    <record id="ms_szr_2" model="project.milestone"><field name="name">Enabling / piling review (1 week)</field><field name="project_id" ref="ems_base.project_szr"/><field name="ems_service_id" ref="svc_review"/><field name="ems_budget_hours">60</field></record>
+    <record id="ms_szr_3" model="project.milestone"><field name="name">Final review and certificate (3 weeks)</field><field name="project_id" ref="ems_base.project_szr"/><field name="ems_service_id" ref="svc_review"/><field name="ems_budget_hours">220</field></record>
+</odoo>

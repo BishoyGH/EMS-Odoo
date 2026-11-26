@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_ems" model="ir.ui.view">
+        <field name="name">product.template.form.ems</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="ems_discipline" placeholder="Discipline"/>
+                <field name="ems_is_service_item"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_ems_catalogue" model="ir.actions.act_window">
+        <field name="name">Products &amp; Services</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('ems_is_service_item', '=', True)]</field>
+        <field name="context">{'default_ems_is_service_item': True, 'default_type': 'service'}</field>
+    </record>
+</odoo>

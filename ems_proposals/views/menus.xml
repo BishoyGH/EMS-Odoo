@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_proposals_root" name="EMS Proposals" sequence="10"
+              groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_prop_dashboard" name="Dashboard" parent="menu_ems_proposals_root" action="action_ems_dashboard" sequence="10"/>
+    <menuitem id="menu_ems_prop_list" name="Proposals" parent="menu_ems_proposals_root" action="action_ems_proposals" sequence="20"/>
+    <menuitem id="menu_ems_prop_followups" name="Follow-ups" parent="menu_ems_proposals_root" action="action_ems_followups" sequence="30"/>
+    <menuitem id="menu_ems_prop_clients" name="Clients" parent="menu_ems_proposals_root" action="action_ems_bid_clients" sequence="40"/>
+</odoo>

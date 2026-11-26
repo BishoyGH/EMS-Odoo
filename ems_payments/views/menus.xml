@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cron_ems_overdue" model="ir.cron">
+        <field name="name">EMS: schedule overdue invoice follow-ups</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_ems_overdue_activities()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+    <menuitem id="menu_ems_payments_root" name="EMS Payments" sequence="30"
+              groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_pay_dashboard" name="Dashboard" parent="menu_ems_payments_root" action="action_ems_payment_dashboard" sequence="10"/>
+    <menuitem id="menu_ems_pay_projects" name="Projects" parent="menu_ems_payments_root" action="action_ems_payment_projects" sequence="20"/>
+    <menuitem id="menu_ems_pay_invoices" name="Client Invoices" parent="menu_ems_payments_root" action="action_ems_client_invoices" sequence="30"/>
+    <menuitem id="menu_ems_pay_followups" name="Follow-ups" parent="menu_ems_payments_root" action="action_ems_payment_followups" sequence="40"/>
+    <menuitem id="menu_ems_pay_stages" name="Fee Stages" parent="menu_ems_payments_root" action="action_ems_fee_stage" sequence="50"/>
+    <menuitem id="menu_ems_pay_customers" name="Customers" parent="menu_ems_payments_root" action="ems_base.action_ems_customers" sequence="60"/>
+</odoo>

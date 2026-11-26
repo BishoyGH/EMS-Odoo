@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ems" model="ir.ui.view">
+        <field name="name">res.config.settings.form.ems.loa</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="EMS LOA" string="EMS LOA" name="ems_register" groups="ems_base.group_ems_manager">
+                    <block title="LOA Default Conditions">
+                        <setting string="Governing law"><field name="ems_loa_governing_law"/></setting>
+                        <setting string="Forum"><field name="ems_loa_forum"/></setting>
+                        <setting string="Liability cap"><field name="ems_loa_liability_cap"/></setting>
+                        <setting string="Insurance"><field name="ems_loa_insurance"/></setting>
+                        <setting string="Delay damages"><field name="ems_loa_delay_damages"/></setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

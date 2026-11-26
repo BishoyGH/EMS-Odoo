@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_list_ems_bids" model="ir.ui.view">
+        <field name="name">ems.bid.clients.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Bid Clients" create="0">
+                <field name="name"/>
+                <field name="ems_bid_count"/>
+                <field name="ems_won_count"/>
+                <field name="ems_success_pct" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_ems_bid_clients" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_company', '=', True), ('customer_rank', '&gt;', 0)]</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_partner_list_ems_bids')})]"/>
+    </record>
+</odoo>

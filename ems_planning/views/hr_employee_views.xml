@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_employee_booking_list" model="ir.ui.view">
+        <field name="name">ems.employee.booking.list</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-danger="ems_booked_pct &gt; 100">
+                <field name="name"/><field name="ems_grade_id"/><field name="ems_hours_week"/>
+                <field name="ems_booked_pct" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_ems_booking" model="ir.actions.act_window">
+        <field name="name">Booked Today</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('ems_plannable', '=', True)]</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_ems_employee_booking_list')})]"/>
+    </record>
+</odoo>

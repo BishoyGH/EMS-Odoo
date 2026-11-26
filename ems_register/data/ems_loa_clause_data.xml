@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="clause_scope" model="ems.loa.clause"><field name="sequence">10</field><field name="title">Scope of Services</field><field name="body"><![CDATA[<p>The Consultant shall perform the services described in the Scope of Services and Deliverables sections of this Letter of Appointment.</p>]]></field></record>
+    <record id="clause_payment" model="ems.loa.clause"><field name="sequence">20</field><field name="title">Payment</field><field name="body"><![CDATA[<p>Invoices are payable within the number of days stated in the Payment Terms. Payment is conditional on the milestone evidence stated for each stage.</p>]]></field></record>
+    <record id="clause_liability" model="ems.loa.clause"><field name="sequence">30</field><field name="title">Liability and Insurance</field><field name="body"><![CDATA[<p>The Consultant's liability is limited to the cap stated in the Particulars and the Consultant shall maintain the insurance stated therein.</p>]]></field></record>
+    <record id="clause_termination" model="ems.loa.clause"><field name="sequence">40</field><field name="title">Termination</field><field name="body"><![CDATA[<p>Either party may terminate on the notice period stated in the Particulars, subject to the cure period for remediable breaches.</p>]]></field></record>
+    <record id="clause_law" model="ems.loa.clause"><field name="sequence">50</field><field name="title">Governing Law and Forum</field><field name="body"><![CDATA[<p>This appointment is governed by the law and forum stated in the Particulars.</p>]]></field></record>
+</odoo>

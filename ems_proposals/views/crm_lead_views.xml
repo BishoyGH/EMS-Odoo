@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_form_ems" model="ir.ui.view">
+        <field name="name">crm.lead.form.ems</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_add_revision" string="Add Revision" type="object" invisible="type != 'opportunity'"/>
+                <button name="action_create_project" string="Create Project" type="object"
+                        invisible="type != 'opportunity' or ems_project_id" groups="ems_base.group_ems_manager"/>
+                <button name="action_open_project" string="Open Project" type="object" invisible="not ems_project_id"/>
+                <button name="action_unlink_project" string="Unlink Project" type="object" invisible="not ems_project_id"
+                        groups="ems_base.group_ems_manager"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="EMS Proposal" name="ems_proposal" groups="ems_base.group_ems_user">
+                    <group>
+                        <group string="Identification">
+                            <field name="ems_number"/>
+                            <field name="ems_category"/>
+                            <field name="ems_project_code"/>
+                            <field name="ems_client_code"/>
+                            <field name="ems_discipline"/>
+                            <field name="ems_location"/>
+                            <field name="ems_plot"/>
+                            <field name="ems_end_client_id"/>
+                            <field name="ems_project_id"/>
+                        </group>
+                        <group string="Commercials">
+                            <field name="ems_last_revision"/>
+                            <field name="ems_first_fee"/>
+                            <field name="ems_last_fee"/>
+                            <field name="ems_date_submitted"/>
+                            <field name="ems_awarded_value"/>
+                            <field name="ems_competitor"/>
+                            <field name="ems_competitor_fee"/>
+                        </group>
+                    </group>
+                    <field name="ems_scope" placeholder="Scope..."/>
+                </page>
+                <page string="Revisions" name="ems_revisions" groups="ems_base.group_ems_user">
+                    <field name="ems_revision_ids" readonly="1">
+                        <list>
+                            <field name="revision"/>
+                            <field name="date"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="amount"/>
+                            <field name="note"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Follow-up" name="ems_followup" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_follow_up_date"/>
+                            <field name="ems_follow_up_method"/>
+                            <field name="ems_client_response"/>
+                        </group>
+                        <group>
+                            <field name="ems_next_follow_up"/>
+                            <field name="ems_next_follow_up_method"/>
+                            <field name="ems_folder"/>
+                            <field name="ems_proposal_file"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_list_ems" model="ir.ui.view">
+        <field name="name">ems.proposal.list</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <list string="Proposals" decoration-danger="ems_overdue">
+                <field name="ems_number"/>
+                <field name="name" string="Project"/>
+                <field name="partner_id"/>
+                <field name="ems_category" optional="show"/>
+                <field name="ems_last_revision"/>
+                <field name="company_currency" column_invisible="1"/>
+                <field name="ems_last_fee" sum="Total"/>
+                <field name="ems_date_submitted"/>
+                <field name="ems_next_follow_up"/>
+                <field name="ems_overdue" column_invisible="1"/>
+                <field name="stage_id"/>
+                <field name="user_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="crm_lead_search_ems" model="ir.ui.view">
+        <field name="name">ems.proposal.search</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ems_number"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter name="overdue" string="Follow-up Overdue" domain="[('ems_overdue', '=', True)]"/>
+                <filter name="won" string="Won" domain="[('stage_id.is_won', '=', True)]"/>
+                <filter name="open" string="Open" domain="[('stage_id.is_won', '=', False)]"/>
+                <group>
+                    <filter name="g_stage" string="Stage" context="{'group_by': 'stage_id'}"/>
+                    <filter name="g_client" string="Client" context="{'group_by': 'partner_id'}"/>
+                    <filter name="g_category" string="Category" context="{'group_by': 'ems_category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="crm_lead_graph_ems" model="ir.ui.view">
+        <field name="name">ems.proposal.graph</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <graph string="Proposals">
+                <field name="stage_id"/>
+                <field name="ems_last_fee" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="crm_lead_pivot_ems" model="ir.ui.view">
+        <field name="name">ems.proposal.pivot</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <pivot string="Proposals">
+                <field name="partner_id" type="row"/>
+                <field name="stage_id" type="col"/>
+                <field name="ems_last_fee" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_ems_proposals" model="ir.actions.act_window">
+        <field name="name">Proposals</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="domain">[('type', '=', 'opportunity')]</field>
+        <field name="context">{'default_type': 'opportunity', 'search_default_open': 1}</field>
+        <field name="search_view_id" ref="crm_lead_search_ems"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('crm_lead_list_ems')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('crm_lead_graph_ems')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('crm_lead_pivot_ems')})]"/>
+    </record>
+    <record id="action_ems_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="domain">[('type', '=', 'opportunity')]</field>
+        <field name="context">{'active_test': False}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('crm_lead_graph_ems')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('crm_lead_pivot_ems')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('crm_lead_list_ems')})]"/>
+    </record>
+    <record id="action_ems_followups" model="ir.actions.act_window">
+        <field name="name">Follow-ups</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('type', '=', 'opportunity'), ('ems_next_follow_up', '!=', False)]</field>
+        <field name="search_view_id" ref="crm_lead_search_ems"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('crm_lead_list_ems')})]"/>
+    </record>
+</odoo>

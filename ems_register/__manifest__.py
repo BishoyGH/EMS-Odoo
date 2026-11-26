@@ -1,0 +1,23 @@
+{
+    'name': 'EMS PO / LOA Register',
+    'version': '20.0.1.0.0',
+    'category': 'Inventory/Purchase',
+    'summary': 'Project register, purchase orders with Letter of Appointment, clauses and sub-budget control',
+    'depends': ['ems_base', 'purchase', 'project', 'account'],
+    'data': [
+        'security/ir.access.csv',
+        'data/ir_sequence_data.xml',
+        'data/product_data.xml',
+        'data/ems_loa_clause_data.xml',
+        'views/ems_loa_clause_views.xml',
+        'views/purchase_order_views.xml',
+        'views/project_views.xml',
+        'views/res_config_settings_views.xml',
+        'report/purchase_report.xml',
+        'views/menus.xml',
+    ],
+    'demo': ['demo/ems_register_demo.xml'],
+    'author': 'EMS',
+    'license': 'LGPL-3',
+    'application': True,
+}

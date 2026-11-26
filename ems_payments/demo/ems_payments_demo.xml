@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="fee_m1" model="ems.fee.stage"><field name="project_id" ref="ems_base.project_szr"/><field name="sequence">10</field><field name="name">M1 - Acceptance and NTP</field><field name="trigger">Acceptance of offer AND NTP</field><field name="percent">25</field></record>
+    <record id="fee_m2" model="ems.fee.stage"><field name="project_id" ref="ems_base.project_szr"/><field name="sequence">20</field><field name="name">M2 - Scope and deliverables complete</field><field name="trigger">Completion of scope and deliverables</field><field name="percent">50</field></record>
+    <record id="fee_m3" model="ems.fee.stage"><field name="project_id" ref="ems_base.project_szr"/><field name="sequence">30</field><field name="name">M3 - Authority approval</field><field name="trigger">Authority approval and design completion</field><field name="percent">25</field></record>
+</odoo>

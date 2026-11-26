@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_ems_lead_revision_user,ems.lead.revision user,ems.lead.revision,ems_base.group_ems_user,cru,
+access_ems_lead_revision_mgr,ems.lead.revision manager,ems.lead.revision,ems_base.group_ems_manager,crud,
+access_ems_add_revision_wiz,ems.add.revision.wizard,ems.add.revision.wizard,ems_base.group_ems_user,crud,
+access_ems_create_project_wiz,ems.create.project.wizard,ems.create.project.wizard,ems_base.group_ems_manager,crud,

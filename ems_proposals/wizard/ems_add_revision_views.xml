@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_add_revision_wizard" model="ir.ui.view">
+        <field name="name">ems.add.revision.wizard.form</field>
+        <field name="model">ems.add.revision.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="lead_id" invisible="1"/>
+                    <field name="revision"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Add" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

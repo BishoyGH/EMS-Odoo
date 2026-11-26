@@ -1,0 +1,19 @@
+{
+    'name': 'EMS Planning',
+    'version': '20.0.1.0.0',
+    'category': 'Services/Project',
+    'summary': 'Resource allocation, weekly plan, utilisation and project cost',
+    'depends': ['ems_people', 'ems_services'],
+    'data': [
+        'security/ir.access.csv',
+        'views/ems_allocation_views.xml',
+        'views/hr_employee_views.xml',
+        'wizard/ems_weekly_plan_views.xml',
+        'report/weekly_plan_report.xml',
+        'views/menus.xml',
+    ],
+    'demo': ['demo/ems_planning_demo.xml'],
+    'author': 'EMS',
+    'license': 'LGPL-3',
+    'application': True,
+}

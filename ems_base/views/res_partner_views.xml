@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_ems" model="ir.ui.view">
+        <field name="name">res.partner.form.ems</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="EMS Roles" name="ems_roles" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_category"/>
+                            <field name="ems_sector"/>
+                            <field name="ems_is_end_client"/>
+                            <field name="ems_is_consultant"/>
+                        </group>
+                        <group>
+                            <field name="ems_licence_no"/>
+                            <field name="ems_licence_expiry"/>
+                            <field name="ems_client_payment_days"/>
+                        </group>
+                    </group>
+                    <field name="ems_profile" placeholder="Profile, capabilities, notes..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_ems_customers" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('customer_rank', '&gt;', 0)]</field>
+        <field name="context">{'default_customer_rank': 1}</field>
+    </record>
+    <record id="action_ems_vendors" model="ir.actions.act_window">
+        <field name="name">Vendors</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('supplier_rank', '&gt;', 0)]</field>
+        <field name="context">{'default_supplier_rank': 1}</field>
+    </record>
+</odoo>
