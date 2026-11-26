@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="partner_sol" model="res.partner">
+        <field name="name">SOL Properties Development LLC</field>
+        <field name="is_company" eval="True"/>
+        <field name="customer_rank">1</field>
+        <field name="ems_category">company</field>
+        <field name="ems_sector">Real estate development</field>
+        <field name="ems_is_end_client" eval="True"/>
+        <field name="ems_client_payment_days">15</field>
+    </record>
+    <record id="project_szr" model="project.project">
+        <field name="name">Sheikh Zayed Road Tower + Car Park (Plot 3350144)</field>
+        <field name="ems_code">SZR-SOL</field>
+        <field name="partner_id" ref="partner_sol"/>
+        <field name="ems_service">Structural design review</field>
+        <field name="ems_contract_value">125000</field>
+        <field name="ems_client_po">PO 09-Sep-2025</field>
+        <field name="description">Pilot project. Award PO covers review items 1-7 only (AED 125,000 ex VAT). The AED 245,000 proposal is NOT the contract baseline.</field>
+    </record>
+</odoo>

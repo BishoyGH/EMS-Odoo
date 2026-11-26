@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_ems_loa" model="ir.actions.report">
+        <field name="name">Letter of Appointment</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ems_register.report_ems_loa</field>
+        <field name="print_report_name">'LOA - %s' % (object.ems_loa_ref or object.name)</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_ems_loa">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Letter of Appointment <span t-field="o.ems_loa_ref"/></h2>
+                        <p>Date: <span t-field="o.ems_loa_date"/> | Order: <span t-field="o.name"/></p>
+                        <p>To: <strong t-field="o.partner_id"/></p>
+                        <p>Project: <span t-field="o.ems_project_id"/></p>
+                        <h4>Scope of Services</h4><div t-field="o.ems_scope"/>
+                        <h4>Deliverables</h4><div t-field="o.ems_deliverables"/>
+                        <h4>Exclusions</h4><div t-field="o.ems_exclusions"/>
+                        <h4>Fees</h4>
+                        <table class="table table-sm">
+                            <thead><tr><th>Description</th><th class="text-end">Qty</th><th class="text-end">Unit price</th><th class="text-end">Amount</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="o.order_line.filtered(lambda l: not l.display_type)" t-as="l">
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-end"><span t-field="l.product_qty"/></td>
+                                    <td class="text-end"><span t-field="l.price_unit"/></td>
+                                    <td class="text-end"><span t-field="l.price_subtotal"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Total ex VAT: <span t-field="o.amount_untaxed"/> | VAT: <span t-field="o.amount_tax"/> | Total: <strong t-field="o.amount_total"/></p>
+                        <h4>Payment Milestones</h4>
+                        <table class="table table-sm">
+                            <tr t-foreach="o.ems_milestone_ids" t-as="m">
+                                <td><span t-field="m.name"/></td><td><span t-field="m.percent"/>%</td>
+                                <td class="text-end"><span t-field="m.amount"/></td><td><span t-field="m.due_on"/></td>
+                            </tr>
+                        </table>
+                        <h4>Particulars</h4>
+                        <table class="table table-sm">
+                            <tr><td>Governing law</td><td><span t-field="o.ems_governing_law"/></td></tr>
+                            <tr><td>Forum</td><td><span t-field="o.ems_forum"/></td></tr>
+                            <tr><td>Liability cap</td><td><span t-field="o.ems_liability_cap"/></td></tr>
+                            <tr><td>Insurance</td><td><span t-field="o.ems_insurance"/></td></tr>
+                            <tr><td>Delay damages</td><td><span t-field="o.ems_delay_damages"/></td></tr>
+                            <tr><td>Retention</td><td><span t-field="o.ems_retention_pct"/>%</td></tr>
+                        </table>
+                        <h4>Special Conditions</h4><div t-field="o.ems_special_conditions"/>
+                        <h4>Terms &amp; Conditions</h4><div t-field="o.ems_terms"/>
+                        <div class="row mt-5">
+                            <div class="col-6">For EMS: ____________________</div>
+                            <div class="col-6">For the Consultant: ____________________</div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_onboarding_list" model="ir.ui.view">
+        <field name="name">ems.onboarding.list</field>
+        <field name="model">ems.onboarding</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" decoration-muted="done">
+                <field name="employee_id"/>
+                <field name="name"/>
+                <field name="owner_id"/>
+                <field name="due_date"/>
+                <field name="done"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_ems_onboarding" model="ir.actions.act_window">
+        <field name="name">Onboarding</field>
+        <field name="res_model">ems.onboarding</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

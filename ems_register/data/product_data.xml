@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="product_subconsultancy" model="product.template">
+        <field name="name">Subconsultancy service (lump sum)</field>
+        <field name="type">service</field>
+        <field name="purchase_ok" eval="True"/>
+        <field name="sale_ok" eval="False"/>
+        <field name="list_price">0</field>
+    </record>
+</odoo>

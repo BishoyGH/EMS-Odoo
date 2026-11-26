@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_fee_stage_list" model="ir.ui.view">
+        <field name="name">ems.fee.stage.list</field>
+        <field name="model">ems.fee.stage</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="project_id" optional="show"/>
+                <field name="phase"/>
+                <field name="name"/>
+                <field name="trigger"/>
+                <field name="basis"/>
+                <field name="percent"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="amount" sum="Total"/>
+                <field name="progress"/>
+                <field name="eligible"/>
+                <field name="state" widget="badge"/>
+                <button name="action_invoice_stage" type="object" string="Invoice" icon="fa-file-text-o"
+                        invisible="state == 'invoiced' or not eligible"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_fee_stage_form" model="ir.ui.view">
+        <field name="name">ems.fee.stage.form</field>
+        <field name="model">ems.fee.stage</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_invoice_stage" string="Invoice this Stage" type="object" class="btn-primary"
+                            invisible="state == 'invoiced'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_id"/><field name="phase"/><field name="name"/><field name="trigger"/>
+                        </group>
+                        <group>
+                            <field name="basis"/><field name="percent" invisible="basis != 'percent'"/>
+                            <field name="currency_id" invisible="1"/><field name="amount"/>
+                            <field name="progress"/><field name="eligible"/><field name="invoiced_amount"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_ems_fee_stage" model="ir.actions.act_window">
+        <field name="name">Fee Stages</field>
+        <field name="res_model">ems.fee.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

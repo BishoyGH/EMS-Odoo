@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_ems" model="ir.ui.view">
+        <field name="name">purchase.order.form.ems</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_issue_loa" string="Issue for Signature" type="object"
+                        invisible="state != 'draft'" groups="ems_base.group_ems_manager"/>
+                <button name="action_ems_milestones_from_lines" string="Milestones from Lines" type="object"
+                        invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="ems_project_id"/>
+                <field name="ems_quotation_ref"/>
+                <field name="ems_quotation_date"/>
+                <field name="ems_tax_treatment"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Letter of Appointment" name="ems_loa" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_loa_ref"/>
+                            <field name="ems_loa_revision"/>
+                            <field name="ems_loa_date"/>
+                            <field name="ems_signed"/>
+                            <field name="ems_signed_by"/>
+                        </group>
+                        <group>
+                            <field name="ems_date_start"/>
+                            <field name="ems_completion_basis"/>
+                            <field name="ems_duration"/>
+                            <field name="ems_duration_unit"/>
+                            <field name="ems_document_location"/>
+                        </group>
+                    </group>
+                    <separator string="Scope of Services"/>
+                    <field name="ems_scope"/>
+                    <separator string="Deliverables"/>
+                    <field name="ems_deliverables"/>
+                    <separator string="Exclusions"/>
+                    <field name="ems_exclusions"/>
+                </page>
+                <page string="Payment Terms" name="ems_payment" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_advance_pct"/>
+                            <field name="ems_retention_pct"/>
+                            <field name="ems_retention_release"/>
+                            <field name="ems_payment_days"/>
+                        </group>
+                        <group>
+                            <field name="ems_milestone_pct"/>
+                            <field name="ems_next_action"/>
+                            <field name="ems_follow_up_date"/>
+                        </group>
+                    </group>
+                    <field name="ems_milestone_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="percent"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="amount"/>
+                            <field name="due_on"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Conditions" name="ems_conditions" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_governing_law"/>
+                            <field name="ems_forum"/>
+                            <field name="ems_liability_cap"/>
+                            <field name="ems_insurance"/>
+                            <field name="ems_delay_damages"/>
+                        </group>
+                        <group>
+                            <field name="ems_notice_days"/>
+                            <field name="ems_cure_days"/>
+                            <field name="ems_restriction_months"/>
+                            <field name="ems_review_days"/>
+                            <field name="ems_rep_id"/>
+                            <field name="ems_notice_email"/>
+                        </group>
+                    </group>
+                    <separator string="Special Conditions"/>
+                    <field name="ems_special_conditions"/>
+                    <separator string="Terms &amp; Conditions"/>
+                    <field name="ems_terms"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

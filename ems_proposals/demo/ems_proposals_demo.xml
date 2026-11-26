@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="lead_szr" model="crm.lead">
+        <field name="name">Sheikh Zayed Road Tower + Car Park (B+G+59+R)</field>
+        <field name="type">opportunity</field>
+        <field name="partner_id" ref="ems_base.partner_sol"/>
+        <field name="stage_id" ref="stage_won"/>
+        <field name="ems_category">3p</field>
+        <field name="ems_plot">3350144</field>
+        <field name="ems_discipline">Structural review</field>
+        <field name="ems_awarded_value">125000</field>
+        <field name="ems_project_id" ref="ems_base.project_szr"/>
+        <field name="ems_scope">Proposal AED 245,000 ex VAT (review 125k + VE 45k + steel connection 35k + PT 40k). Awarded: review only.</field>
+    </record>
+    <record id="rev_szr_r00" model="ems.lead.revision">
+        <field name="lead_id" ref="lead_szr"/><field name="revision">R00</field>
+        <field name="date">2025-08-02</field><field name="amount">245000</field><field name="note">Initial submission</field>
+    </record>
+    <record id="rev_szr_r01" model="ems.lead.revision">
+        <field name="lead_id" ref="lead_szr"/><field name="revision">R01</field>
+        <field name="date">2025-08-20</field><field name="amount">245000</field><field name="note">Revised proposal</field>
+    </record>
+</odoo>

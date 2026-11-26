@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shared configuration menu; each EMS app adds its own top-level menu. -->
+    <menuitem id="menu_ems_config_root" name="EMS Configuration" sequence="990"
+              groups="ems_base.group_ems_manager" web_icon="ems_base,static/description/icon.png"/>
+</odoo>

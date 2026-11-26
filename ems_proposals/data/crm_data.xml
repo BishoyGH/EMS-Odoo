@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="stage_rfp" model="crm.stage"><field name="name">RFP Received</field><field name="sequence">1</field></record>
+    <record id="stage_submitted" model="crm.stage"><field name="name">Proposal Submitted</field><field name="sequence">2</field></record>
+    <record id="stage_negotiation" model="crm.stage"><field name="name">Negotiation</field><field name="sequence">3</field></record>
+    <record id="stage_on_hold" model="crm.stage"><field name="name">On Hold</field><field name="sequence">4</field></record>
+    <record id="stage_won" model="crm.stage"><field name="name">Won</field><field name="sequence">5</field><field name="is_won" eval="True"/></record>
+    <record id="lost_lost" model="crm.lost.reason"><field name="name">Lost to competitor</field></record>
+    <record id="lost_regret" model="crm.lost.reason"><field name="name">Regret (we declined)</field></record>
+    <record id="lost_cancelled" model="crm.lost.reason"><field name="name">Cancelled by client</field></record>
+    <record id="lost_price" model="crm.lost.reason"><field name="name">Fee too high</field></record>
+</odoo>

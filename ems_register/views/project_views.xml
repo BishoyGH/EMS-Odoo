@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_ems_register" model="ir.ui.view">
+        <field name="name">project.project.form.ems.register</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ems_base.view_project_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='ems_contract']" position="after">
+                <page string="Budget" name="ems_budget" groups="ems_base.group_ems_user">
+                    <group>
+                        <field name="ems_po_count"/>
+                        <field name="ems_sub_budget"/>
+                        <field name="ems_committed"/>
+                        <field name="ems_sub_balance"/>
+                    </group>
+                    <button name="action_view_ems_pos" type="object" string="Open Purchase Orders" class="btn-secondary"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

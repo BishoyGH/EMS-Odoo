@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_milestone_list" model="ir.ui.view">
+        <field name="name">ems.milestone.list</field>
+        <field name="model">project.milestone</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_id"/><field name="ems_service_id"/><field name="name"/>
+                <field name="ems_date_start"/><field name="deadline"/>
+                <field name="ems_budget_hours" sum="Total"/><field name="ems_owner_id"/>
+                <field name="ems_progress" widget="progressbar"/>
+                <field name="ems_state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_milestone_form" model="ir.ui.view">
+        <field name="name">ems.milestone.form</field>
+        <field name="model">project.milestone</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_ems_mark_done" string="Mark Done" type="object" class="btn-primary"
+                            invisible="ems_state == 'done'"/>
+                    <field name="ems_state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/><field name="project_id"/><field name="ems_service_id"/>
+                            <field name="ems_owner_id"/>
+                        </group>
+                        <group>
+                            <field name="ems_date_start"/><field name="deadline"/>
+                            <field name="ems_budget_hours"/><field name="ems_progress"/>
+                            <field name="is_reached"/><field name="ems_date_done"/>
+                        </group>
+                    </group>
+                    <field name="ems_description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_ems_milestone_kanban" model="ir.ui.view">
+        <field name="name">ems.milestone.kanban</field>
+        <field name="model">project.milestone</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="ems_state">
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <field name="project_id"/>
+                        <field name="deadline"/>
+                        <field name="ems_progress" widget="progressbar"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_ems_milestones" model="ir.actions.act_window">
+        <field name="name">Milestones</field>
+        <field name="res_model">project.milestone</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_ems_milestone_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_ems_milestone_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_ems_milestone_form')})]"/>
+    </record>
+</odoo>

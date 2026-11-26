@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_job_form_ems" model="ir.ui.view">
+        <field name="name">hr.job.form.ems</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="EMS Role Description">
+                    <field name="ems_summary"/>
+                    <field name="ems_responsibilities"/>
+                    <field name="ems_qualifications"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_ems_roles" model="ir.actions.act_window">
+        <field name="name">Roles &amp; Job Descriptions</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_ems_offer" model="ir.actions.report">
+        <field name="name">Offer Letter</field>
+        <field name="model">ems.offer</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ems_people.report_ems_offer</field>
+        <field name="print_report_name">'Offer Letter - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_ems_offer"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_ems_offer">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <p><span t-field="o.offer_date"/></p>
+                        <p>Dear <strong t-out="o.candidate"/>,</p>
+                        <h3>Offer of employment: <span t-field="o.job_id"/></h3>
+                        <div t-field="o.letter_body"/>
+                        <table class="table table-sm">
+                            <tr><td>Proposed start date</td><td><span t-field="o.start_date"/></td></tr>
+                            <tr><td>Probation</td><td><span t-field="o.probation_months"/> months</td></tr>
+                            <tr><td>Notice period</td><td><span t-field="o.notice_days"/> days</td></tr>
+                            <tr><td>Annual leave</td><td><span t-field="o.leave_days"/> days</td></tr>
+                            <tr><td>Air ticket</td><td><span t-field="o.air_ticket"/></td></tr>
+                        </table>
+                        <t t-if="env.user.has_group('ems_base.group_ems_rates')">
+                            <table class="table table-sm">
+                                <tr><td>Basic</td><td class="text-end"><span t-field="o.salary_basic"/></td></tr>
+                                <tr><td>Housing</td><td class="text-end"><span t-field="o.salary_housing"/></td></tr>
+                                <tr><td>Transport</td><td class="text-end"><span t-field="o.salary_transport"/></td></tr>
+                                <tr><td>Other</td><td class="text-end"><span t-field="o.salary_other"/></td></tr>
+                                <tr><th>Total monthly</th><th class="text-end"><span t-field="o.salary_total"/></th></tr>
+                            </table>
+                        </t>
+                        <h4>Job description</h4>
+                        <div t-field="o.job_description"/>
+                        <p class="mt-5">Yours sincerely,<br/><span t-field="o.signatory_id"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

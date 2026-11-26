@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_ems_statement" model="ir.actions.report">
+        <field name="name">EMS Customer Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ems_payments.report_ems_statement</field>
+        <field name="print_report_name">'Statement - %s' % object.name</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_ems_statement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="partner">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Statement of Account</h2>
+                        <p><strong t-field="partner.name"/></p>
+                        <t t-set="invoices" t-value="env['account.move'].search([('partner_id', '=', partner.id), ('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial'))], order='invoice_date_due')"/>
+                        <table class="table table-sm">
+                            <thead><tr><th>Invoice</th><th>Project</th><th>Date</th><th>Due</th><th class="text-end">Outstanding</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="invoices" t-as="inv">
+                                    <td><span t-field="inv.name"/></td>
+                                    <td><span t-field="inv.ems_project_id"/></td>
+                                    <td><span t-field="inv.invoice_date"/></td>
+                                    <td><span t-field="inv.invoice_date_due"/></td>
+                                    <td class="text-end"><span t-field="inv.amount_residual"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

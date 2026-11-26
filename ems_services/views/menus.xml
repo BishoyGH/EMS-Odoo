@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_services_root" name="EMS Services" sequence="40"
+              groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_svc_projects" name="Projects" parent="menu_ems_services_root" action="ems_base.action_ems_projects" sequence="10"/>
+    <menuitem id="menu_ems_svc_milestones" name="Milestones" parent="menu_ems_services_root" action="action_ems_milestones" sequence="20"/>
+    <menuitem id="menu_ems_svc_cost_codes" name="Cost Codes" parent="menu_ems_services_root" action="action_ems_cost_codes" sequence="30"/>
+    <menuitem id="menu_ems_svc_catalogue" name="Products &amp; Services" parent="menu_ems_services_root" action="action_ems_catalogue" sequence="40"/>
+</odoo>

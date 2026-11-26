@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="grade_principal" model="ems.grade"><field name="code">PRN</field><field name="name">Principal</field><field name="sequence">1</field><field name="charge_rate">500</field></record>
+    <record id="grade_senior" model="ems.grade"><field name="code">SNR</field><field name="name">Senior Engineer</field><field name="sequence">2</field><field name="charge_rate">200</field></record>
+    <record id="grade_engineer" model="ems.grade"><field name="code">ENG</field><field name="name">Engineer</field><field name="sequence">3</field><field name="charge_rate">150</field></record>
+    <record id="grade_junior" model="ems.grade"><field name="code">JNR</field><field name="name">Junior Engineer</field><field name="sequence">4</field><field name="charge_rate">100</field></record>
+
+    <record id="emp_mehdi" model="hr.employee"><field name="name">Mehdi Esmaeili</field><field name="ems_code">E001</field><field name="ems_grade_id" ref="grade_principal"/></record>
+    <record id="emp_abraam" model="hr.employee"><field name="name">Abraam Emil</field><field name="ems_code">E002</field><field name="ems_grade_id" ref="grade_principal"/></record>
+    <record id="emp_zahra" model="hr.employee"><field name="name">Zahra Aynedar</field><field name="ems_code">E003</field><field name="ems_grade_id" ref="grade_engineer"/></record>
+    <record id="emp_behairy" model="hr.employee"><field name="name">Behairy Ahmed</field><field name="ems_code">E004</field><field name="ems_grade_id" ref="grade_senior"/></record>
+    <record id="emp_suzanne" model="hr.employee"><field name="name">Suzanne Alboudi</field><field name="ems_code">E005</field><field name="ems_grade_id" ref="grade_engineer"/></record>
+    <record id="emp_michellyn" model="hr.employee"><field name="name">Michellyn Abaquin</field><field name="ems_code">E006</field><field name="ems_grade_id" ref="grade_junior"/></record>
+
+    <record id="onb_demo_1" model="ems.onboarding"><field name="name">Issue laptop and accounts</field><field name="employee_id" ref="emp_zahra"/></record>
+    <record id="offer_demo" model="ems.offer">
+        <field name="candidate">Demo Candidate</field>
+        <field name="grade_id" ref="grade_engineer"/>
+        <field name="salary_basic">12000</field>
+        <field name="salary_housing">4000</field>
+        <field name="salary_transport">1000</field>
+    </record>
+</odoo>

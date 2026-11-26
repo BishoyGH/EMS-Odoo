@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_ems_offer" model="ir.sequence">
+        <field name="name">EMS Offer Letter</field>
+        <field name="code">ems.offer</field>
+        <field name="prefix">OFR-%(year)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

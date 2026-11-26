@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_ems_grade_user,ems.grade user,ems.grade,ems_base.group_ems_user,r,
+access_ems_grade_mgr,ems.grade manager,ems.grade,ems_base.group_ems_rates,crud,
+access_ems_offer_user,ems.offer user,ems.offer,ems_base.group_ems_user,r,
+access_ems_offer_mgr,ems.offer manager,ems.offer,ems_base.group_ems_manager,crud,
+access_ems_onboarding_user,ems.onboarding user,ems.onboarding,ems_base.group_ems_user,cru,
+access_ems_onboarding_mgr,ems.onboarding manager,ems.onboarding,ems_base.group_ems_manager,crud,

@@ -1,0 +1,22 @@
+{
+    'name': 'EMS People',
+    'version': '20.0.1.0.0',
+    'category': 'Human Resources',
+    'summary': 'EMS Resources & HR: grades and rates, employees, offer letters, onboarding, roles',
+    'depends': ['ems_base', 'hr', 'hr_holidays'],
+    'data': [
+        'security/ir.access.csv',
+        'data/ir_sequence_data.xml',
+        'views/ems_grade_views.xml',
+        'views/hr_employee_views.xml',
+        'views/hr_job_views.xml',
+        'views/ems_offer_views.xml',
+        'views/ems_onboarding_views.xml',
+        'views/menus.xml',
+        'report/offer_letter_report.xml',
+    ],
+    'demo': ['demo/ems_people_demo.xml'],
+    'author': 'EMS',
+    'license': 'LGPL-3',
+    'application': True,
+}

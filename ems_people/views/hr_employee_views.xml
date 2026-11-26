@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_ems" model="ir.ui.view">
+        <field name="name">hr.employee.form.ems</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="EMS" name="ems_page" groups="ems_base.group_ems_user">
+                    <group>
+                        <group string="Planning">
+                            <field name="ems_code"/>
+                            <field name="ems_grade_id"/>
+                            <field name="ems_employment_type"/>
+                            <field name="ems_hours_week"/>
+                            <field name="ems_plannable"/>
+                            <field name="ems_date_start"/>
+                            <field name="ems_date_end"/>
+                        </group>
+                        <group string="Rates &amp; Bank (restricted)" groups="ems_base.group_ems_rates">
+                            <field name="ems_cost_rate"/>
+                            <field name="ems_bank"/>
+                            <field name="ems_iban"/>
+                            <field name="ems_mol"/>
+                        </group>
+                    </group>
+                    <field name="ems_notes" placeholder="Notes..."/>
+                </page>
+                <page string="Onboarding" name="ems_onboarding" groups="ems_base.group_ems_user">
+                    <field name="ems_onboarding_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="owner_id"/>
+                            <field name="due_date"/>
+                            <field name="done"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_ems_employees" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <record id="action_ems_leave" model="ir.actions.act_window">
+        <field name="name">Leave &amp; Holidays</field>
+        <field name="res_model">hr.leave</field>
+        <field name="view_mode">calendar,list,form</field>
+    </record>
+    <record id="action_ems_holidays" model="ir.actions.act_window">
+        <field name="name">Public Holidays</field>
+        <field name="res_model">resource.calendar.leaves</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('resource_id', '=', False)]</field>
+    </record>
+</odoo>

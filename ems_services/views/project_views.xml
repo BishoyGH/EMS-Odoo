@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_ems_services" model="ir.ui.view">
+        <field name="name">project.project.form.ems.services</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ems_base.view_project_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='ems_contract']" position="after">
+                <page string="Services" name="ems_services" groups="ems_base.group_ems_user">
+                    <field name="ems_service_ids" context="{'default_project_id': id}">
+                        <list editable="bottom">
+                            <field name="code"/><field name="name"/><field name="discipline"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="fee"/><field name="budget_hours"/><field name="manager_id"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

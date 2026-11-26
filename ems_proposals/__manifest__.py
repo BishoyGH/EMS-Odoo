@@ -1,0 +1,21 @@
+{
+    'name': 'EMS Proposals & Bids',
+    'version': '20.0.1.0.0',
+    'category': 'Sales/CRM',
+    'summary': 'Proposal register on CRM: numbering, revisions, follow-ups, project link',
+    'depends': ['ems_base', 'crm'],
+    'data': [
+        'security/ir.access.csv',
+        'data/ir_sequence_data.xml',
+        'data/crm_data.xml',
+        'views/crm_lead_views.xml',
+        'views/res_partner_views.xml',
+        'wizard/ems_add_revision_views.xml',
+        'wizard/ems_create_project_views.xml',
+        'views/menus.xml',
+    ],
+    'demo': ['demo/ems_proposals_demo.xml'],
+    'author': 'EMS',
+    'license': 'LGPL-3',
+    'application': True,
+}

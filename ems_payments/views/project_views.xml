@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_ems_payments" model="ir.ui.view">
+        <field name="name">project.project.form.ems.payments</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ems_base.view_project_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='ems_contract']" position="after">
+                <page string="Fees &amp; Invoices" name="ems_fees" groups="ems_base.group_ems_user">
+                    <group>
+                        <field name="ems_invoiced"/>
+                        <field name="ems_uninvoiced"/>
+                        <field name="ems_outstanding"/>
+                    </group>
+                    <field name="ems_fee_stage_ids" context="{'default_project_id': id}">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="phase"/>
+                            <field name="name"/>
+                            <field name="trigger"/>
+                            <field name="percent"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="amount"/>
+                            <field name="eligible"/>
+                            <field name="state" widget="badge"/>
+                            <button name="action_invoice_stage" type="object" string="Invoice" icon="fa-file-text-o"
+                                    invisible="state == 'invoiced' or not eligible"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_ems_payment_projects_list" model="ir.ui.view">
+        <field name="name">ems.payment.projects.list</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="ems_code"/><field name="name"/><field name="partner_id"/>
+                <field name="ems_currency_id" column_invisible="1"/>
+                <field name="ems_total_value" sum="Total"/>
+                <field name="ems_invoiced" sum="Total"/>
+                <field name="ems_uninvoiced" sum="Total"/>
+                <field name="ems_outstanding" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_ems_payment_projects" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_ems_payment_projects_list')})]"/>
+    </record>
+</odoo>

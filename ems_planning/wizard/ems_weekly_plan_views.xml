@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_weekly_plan_wizard" model="ir.ui.view">
+        <field name="name">ems.weekly.plan.wizard.form</field>
+        <field name="model">ems.weekly.plan.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group><field name="week_start"/></group>
+                <footer>
+                    <button name="action_print" string="Print Weekly Plan" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_ems_weekly_plan" model="ir.actions.act_window">
+        <field name="name">Weekly Plan</field>
+        <field name="res_model">ems.weekly.plan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
