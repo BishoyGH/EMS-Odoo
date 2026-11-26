@@ -13,6 +13,7 @@
         'views/project_views.xml',
         'views/menus.xml',
         'views/ems_base_views.xml',
+        'report/ems_report_layout.xml',
     ],
     'demo': ['demo/ems_base_demo.xml'],
     'author': 'EMS',

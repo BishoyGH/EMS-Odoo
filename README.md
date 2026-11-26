@@ -48,11 +48,14 @@ Open EMS Data Migration, choose the backup file and run. The import is idempoten
 
 ## Planner
 
-The Planner menu is a drag-and-drop grid of people by weeks; dragging a bar moves it to another person or week. Hours use the employee working calendar, public holidays and leave.
+The Planner menu is a drag-and-drop grid of people by weeks; dragging a bar moves it to another person or week. Hours use the employee working calendar, public holidays and leave. The drag and drop is covered by a headless-browser tour test (`ems_planner_drag_tour`, needs Chrome and `websocket-client`).
+
+## Printouts
+
+PO, LOA, offer letter, customer statement (with aging buckets) and weekly action plan (one page per person, Mon-Fri columns) share one EMS letterhead (`ems_base.ems_report_page`) laid out after the exe printouts. Salary lines on the offer letter only print for the Rates Manager group.
 
 ## Remaining gaps
 
-- PO/LOA, offer, weekly plan and statement PDFs are QWeb layouts with a shared look, not pixel-matched to the exe.
 - No multi-company record rules (single company assumed).
 - Cost rates are not migrated (the backup holds charge-out rates only); enter them under Grades.
 - Proposal folder-template creation on disk is not implemented; documents are stored in Odoo.

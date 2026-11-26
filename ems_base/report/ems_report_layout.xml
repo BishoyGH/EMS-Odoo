@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shared EMS letterhead used by every EMS printout. Usage:
+         <t t-call="ems_base.ems_report_page"><t t-set="doc_title">PURCHASE ORDER</t><t t-set="doc_ref">...</t> body </t> -->
+    <template id="ems_report_page">
+        <t t-set="company" t-value="company or env.company"/>
+        <div class="article ems-doc" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+            <style>
+                .ems-doc { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #111; }
+                .ems-doc .ems-head { width: 100%; border-bottom: 3px solid #1f3a64; margin-bottom: 14px; }
+                .ems-doc .ems-brand { font-family: Georgia, serif; font-size: 26pt; font-weight: bold; color: #1f3a64; }
+                .ems-doc .ems-sub { font-size: 8pt; color: #1f3a64; padding-bottom: 6px; }
+                .ems-doc .ems-title { font-size: 16pt; font-weight: bold; color: #1f3a64; text-align: right; }
+                .ems-doc .ems-ref { text-align: right; font-size: 9pt; }
+                .ems-doc h4 { color: #1f3a64; font-size: 11pt; margin: 14px 0 6px; }
+                .ems-doc table.ems-grid { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+                .ems-doc table.ems-grid th, .ems-doc table.ems-grid td { border: 1px solid #b9c0cc; padding: 3px 6px; vertical-align: top; }
+                .ems-doc table.ems-grid th { background: #eaeef5; text-align: left; }
+                .ems-doc .ems-num { text-align: right; white-space: nowrap; }
+                .ems-doc .ems-sign td { height: 70px; }
+                .ems-doc .ems-muted { color: #666; font-size: 8pt; }
+                .ems-doc .ems-pagebreak { page-break-after: always; }
+            </style>
+            <table class="ems-head"><tr>
+                <td style="width:55%">
+                    <div class="ems-brand">&#9670; EMS</div>
+                    <div class="ems-sub"><span t-out="company.name"/><t t-if="company.city"> · <span t-out="company.city"/></t><t t-if="company.country_id"> · <span t-out="company.country_id.name"/></t></div>
+                </td>
+                <td style="width:45%; vertical-align: top;">
+                    <div class="ems-title" t-out="doc_title"/>
+                    <div class="ems-ref" t-out="doc_ref"/>
+                </td>
+            </tr></table>
+            <t t-out="0"/>
+        </div>
+    </template>
+
+    <template id="ems_signature_block">
+        <table class="ems-grid ems-sign">
+            <tr>
+                <td style="width:50%">For <span t-out="(company or env.company).name"/><br/><br/><t t-out="left_note or 'Name / signature / date'"/></td>
+                <td style="width:50%"><t t-out="right_title or 'Accepted'"/><br/><br/><t t-out="right_note or 'Name / signature / stamp / date'"/></td>
+            </tr>
+        </table>
+    </template>
+</odoo>

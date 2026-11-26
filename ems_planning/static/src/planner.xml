@@ -7,11 +7,11 @@
                 <div class="text-muted">Drag a bar to another person or week. Hours exclude leave and public holidays.</div>
             </div>
             <div class="o_ems_planner_nav">
-                <button class="btn btn-secondary" t-on-click="() => this.shift(-4)" title="Back 4 weeks"><i class="fa fa-angle-double-left"/></button>
-                <button class="btn btn-secondary" t-on-click="() => this.shift(-1)" title="Previous week"><i class="fa fa-angle-left"/></button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(-4)" title="Back 4 weeks">«</button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(-1)" title="Previous week">‹</button>
                 <button class="btn btn-primary" t-on-click="this.today">Today</button>
-                <button class="btn btn-secondary" t-on-click="() => this.shift(1)" title="Next week"><i class="fa fa-angle-right"/></button>
-                <button class="btn btn-secondary" t-on-click="() => this.shift(4)" title="Forward 4 weeks"><i class="fa fa-angle-double-right"/></button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(1)" title="Next week">›</button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(4)" title="Forward 4 weeks">»</button>
                 <select class="form-select o_ems_planner_weeks" t-on-change="(ev) => this.setWeeks(parseInt(ev.target.value))">
                     <option value="4" t-att-selected="this.state.weeks === 4">4 weeks</option>
                     <option value="8" t-att-selected="this.state.weeks === 8">8 weeks</option>

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_report_ems_po" model="ir.actions.report">
+        <field name="name">EMS Purchase Order</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ems_register.report_ems_po</field>
+        <field name="print_report_name">'PO - %s' % object.name</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
     <record id="action_report_ems_loa" model="ir.actions.report">
         <field name="name">Letter of Appointment</field>
         <field name="model">purchase.order</field>
@@ -9,53 +18,118 @@
         <field name="binding_model_id" ref="purchase.model_purchase_order"/>
         <field name="binding_type">report</field>
     </record>
+
+    <template id="report_ems_po">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                    <t t-set="company" t-value="o.company_id"/>
+                    <t t-set="doc_title">PURCHASE ORDER</t>
+                    <t t-set="doc_ref"><span t-out="o.name"/> · <span t-out="o.date_order" t-options="{'widget': 'date'}"/></t>
+                <t t-call="ems_base.ems_report_page">
+                    <table class="ems-grid">
+                        <tr><th style="width:50%">Vendor</th><th>Project</th></tr>
+                        <tr>
+                            <td>
+                                <strong t-out="o.partner_id.name"/><br/>
+                                <t t-if="o.partner_id.street"><span t-out="o.partner_id.street"/>, </t><span t-out="o.partner_id.city"/><br/>
+                                <t t-if="o.partner_id.vat">TRN <span t-out="o.partner_id.vat"/></t>
+                            </td>
+                            <td>
+                                <strong t-out="o.ems_project_id.display_name"/><br/>
+                                <t t-if="o.ems_project_id.partner_id">Client: <span t-out="o.ems_project_id.partner_id.name"/><br/></t>
+                                <t t-if="o.ems_quotation_ref">Your ref.: <span t-out="o.ems_quotation_ref"/><t t-if="o.ems_quotation_date"> (<span t-out="o.ems_quotation_date" t-options="{'widget': 'date'}"/>)</t> · </t>Our ref.: <span t-out="o.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="ems-grid">
+                        <thead><tr><th style="width:30px">#</th><th>Description</th><th class="ems-num">Qty</th><th>Unit</th><th class="ems-num">Amount <span t-out="o.currency_id.name"/></th></tr></thead>
+                        <tbody>
+                            <t t-set="n" t-value="0"/>
+                            <t t-foreach="o.order_line.filtered(lambda l: not l.display_type)" t-as="l">
+                                <t t-set="n" t-value="n + 1"/>
+                                <tr>
+                                    <td t-out="n"/>
+                                    <td><span t-out="l.name"/></td>
+                                    <td class="ems-num"><span t-out="l.product_qty" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td><span t-out="l.uom_id.name"/></td>
+                                    <td class="ems-num"><span t-out="l.price_subtotal" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                </tr>
+                            </t>
+                            <tr><td colspan="4" class="ems-num">Subtotal</td><td class="ems-num"><span t-out="o.amount_untaxed" t-options="{'widget': 'float', 'precision': 2}"/></td></tr>
+                            <tr><td colspan="4" class="ems-num">VAT</td><td class="ems-num"><span t-out="o.amount_tax" t-options="{'widget': 'float', 'precision': 2}"/></td></tr>
+                            <tr><td colspan="4" class="ems-num"><strong>Total</strong></td><td class="ems-num"><strong t-out="o.amount_total" t-options="{'widget': 'float', 'precision': 2}"/></td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Amount in words:</strong> <span t-out="o.currency_id.amount_to_text(o.amount_total)"/></p>
+                    <p><strong>Payment terms:</strong>
+                        <t t-if="o.ems_advance_pct"><span t-out="'%g' % o.ems_advance_pct"/>% advance on signature; </t>
+                        <t t-if="o.ems_milestone_ids">milestones per the LOA; </t>
+                        <t t-if="o.ems_retention_pct">retention <span t-out="'%g' % o.ems_retention_pct"/>%; </t>
+                        payment <span t-out="o.ems_payment_days"/> days from a valid tax invoice.</p>
+                    <p t-if="o.ems_duration"><strong>Completion:</strong> <span t-out="o.ems_duration"/> <span t-out="o.ems_duration_unit"/><t t-if="o.ems_date_start"> from <span t-out="o.ems_date_start" t-options="{'widget': 'date'}"/></t>.
+                        <t t-if="o.ems_loa_ref">This order is issued subject to Letter of Appointment <span t-out="o.ems_loa_ref"/> and its terms and conditions.</t></p>
+                    <div style="margin-top:30px">
+                            <t t-set="right_title">Accepted by the Vendor</t>
+                        <t t-call="ems_base.ems_signature_block">
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
     <template id="report_ems_loa">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2>Letter of Appointment <span t-field="o.ems_loa_ref"/></h2>
-                        <p>Date: <span t-field="o.ems_loa_date"/> | Order: <span t-field="o.name"/></p>
-                        <p>To: <strong t-field="o.partner_id"/></p>
-                        <p>Project: <span t-field="o.ems_project_id"/></p>
-                        <h4>Scope of Services</h4><div t-field="o.ems_scope"/>
-                        <h4>Deliverables</h4><div t-field="o.ems_deliverables"/>
-                        <h4>Exclusions</h4><div t-field="o.ems_exclusions"/>
-                        <h4>Fees</h4>
-                        <table class="table table-sm">
-                            <thead><tr><th>Description</th><th class="text-end">Qty</th><th class="text-end">Unit price</th><th class="text-end">Amount</th></tr></thead>
-                            <tbody>
-                                <tr t-foreach="o.order_line.filtered(lambda l: not l.display_type)" t-as="l">
-                                    <td><span t-field="l.name"/></td>
-                                    <td class="text-end"><span t-field="l.product_qty"/></td>
-                                    <td class="text-end"><span t-field="l.price_unit"/></td>
-                                    <td class="text-end"><span t-field="l.price_subtotal"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>Total ex VAT: <span t-field="o.amount_untaxed"/> | VAT: <span t-field="o.amount_tax"/> | Total: <strong t-field="o.amount_total"/></p>
-                        <h4>Payment Milestones</h4>
-                        <table class="table table-sm">
+                    <t t-set="company" t-value="o.company_id"/>
+                    <t t-set="doc_title">LETTER OF APPOINTMENT</t>
+                    <t t-set="doc_ref"><span t-out="o.ems_loa_ref or o.name"/> · R<span t-out="o.ems_loa_revision"/> · <span t-out="o.ems_loa_date" t-options="{'widget': 'date'}"/></t>
+                <t t-call="ems_base.ems_report_page">
+                    <p>To: <strong t-out="o.partner_id.name"/><t t-if="o.partner_id.city">, <span t-out="o.partner_id.city"/></t></p>
+                    <p><strong>Subject: Appointment · <span t-out="o.ems_project_id.display_name"/></strong></p>
+                    <p>
+                        <t t-if="o.ems_quotation_ref">Further to your offer <span t-out="o.ems_quotation_ref"/><t t-if="o.ems_quotation_date"> dated <span t-out="o.ems_quotation_date" t-options="{'widget': 'date'}"/></t>, </t>
+                        EMS is pleased to appoint you to perform the services below on the terms of this letter.</p>
+
+                    <h4>Particulars</h4>
+                    <table class="ems-grid">
+                        <tr><th style="width:30%">Governing law</th><td t-out="o.ems_governing_law"/></tr>
+                        <tr><th>Forum</th><td t-out="o.ems_forum"/></tr>
+                        <tr><th>Fee</th><td><span t-out="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> excl. VAT (<span t-out="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> incl. VAT)</td></tr>
+                        <tr t-if="o.ems_duration"><th>Programme</th><td><span t-out="o.ems_duration"/> <span t-out="o.ems_duration_unit"/><t t-if="o.ems_date_start"> from <span t-out="o.ems_date_start" t-options="{'widget': 'date'}"/></t></td></tr>
+                        <tr><th>Limitation of liability</th><td t-out="o.ems_liability_cap"/></tr>
+                        <tr><th>Insurance</th><td t-out="o.ems_insurance"/></tr>
+                        <tr t-if="o.ems_delay_damages"><th>Delay damages</th><td t-out="o.ems_delay_damages"/></tr>
+                        <tr t-if="o.ems_retention_pct"><th>Retention</th><td><span t-out="'%g' % o.ems_retention_pct"/>%<t t-if="o.ems_retention_release"> · <span t-out="o.ems_retention_release"/></t></td></tr>
+                        <tr><th>Notice / cure / review periods</th><td><span t-out="o.ems_notice_days"/> / <span t-out="o.ems_cure_days"/> / <span t-out="o.ems_review_days"/> days</td></tr>
+                        <tr><th>EMS representative</th><td><span t-out="o.ems_rep_id.name"/><t t-if="o.ems_notice_email"> · <span t-out="o.ems_notice_email"/></t></td></tr>
+                    </table>
+
+                    <h4>Scope of services</h4><div t-out="o.ems_scope"/>
+                    <t t-if="not is_html_empty(o.ems_deliverables)"><h4>Deliverables</h4><div t-out="o.ems_deliverables"/></t>
+                    <t t-if="not is_html_empty(o.ems_exclusions)"><h4>Exclusions</h4><div t-out="o.ems_exclusions"/></t>
+
+                    <h4>Payment milestones</h4>
+                    <table class="ems-grid">
+                        <thead><tr><th style="width:30px">#</th><th>Milestone</th><th class="ems-num">%</th><th class="ems-num">Amount <span t-out="o.currency_id.name"/></th></tr></thead>
+                        <tbody>
+                            <t t-set="n" t-value="0"/>
                             <tr t-foreach="o.ems_milestone_ids" t-as="m">
-                                <td><span t-field="m.name"/></td><td><span t-field="m.percent"/>%</td>
-                                <td class="text-end"><span t-field="m.amount"/></td><td><span t-field="m.due_on"/></td>
+                                <t t-set="n" t-value="n + 1"/>
+                                <td t-out="n"/><td t-out="m.name"/>
+                                <td class="ems-num"><span t-out="'%g' % m.percent"/>%</td>
+                                <td class="ems-num"><span t-out="m.amount" t-options="{'widget': 'float', 'precision': 2}"/></td>
                             </tr>
-                        </table>
-                        <h4>Particulars</h4>
-                        <table class="table table-sm">
-                            <tr><td>Governing law</td><td><span t-field="o.ems_governing_law"/></td></tr>
-                            <tr><td>Forum</td><td><span t-field="o.ems_forum"/></td></tr>
-                            <tr><td>Liability cap</td><td><span t-field="o.ems_liability_cap"/></td></tr>
-                            <tr><td>Insurance</td><td><span t-field="o.ems_insurance"/></td></tr>
-                            <tr><td>Delay damages</td><td><span t-field="o.ems_delay_damages"/></td></tr>
-                            <tr><td>Retention</td><td><span t-field="o.ems_retention_pct"/>%</td></tr>
-                        </table>
-                        <h4>Special Conditions</h4><div t-field="o.ems_special_conditions"/>
-                        <h4>Terms &amp; Conditions</h4><div t-field="o.ems_terms"/>
-                        <div class="row mt-5">
-                            <div class="col-6">For EMS: ____________________</div>
-                            <div class="col-6">For the Consultant: ____________________</div>
-                        </div>
+                        </tbody>
+                    </table>
+
+                    <t t-if="not is_html_empty(o.ems_special_conditions)"><h4>Special conditions</h4><div t-out="o.ems_special_conditions"/></t>
+                    <h4 style="page-break-before: always">Terms and conditions</h4>
+                    <div t-out="o.ems_terms"/>
+                    <div style="margin-top:30px; page-break-inside: avoid">
+                            <t t-set="right_title">Accepted by the Consultant</t>
+                        <t t-call="ems_base.ems_signature_block">
+                        </t>
                     </div>
                 </t>
             </t>

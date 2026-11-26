@@ -33,8 +33,9 @@ export class EmsPlanner extends Component {
     }
 
     shift(weeks) {
-        const date = new Date(this.state.start + "T00:00:00");
-        date.setDate(date.getDate() + weeks * 7);
+        // UTC on purpose: a local-time date would drift a day in time zones ahead of UTC
+        const date = new Date(this.state.start + "T00:00:00Z");
+        date.setUTCDate(date.getUTCDate() + weeks * 7);
         this.state.start = date.toISOString().slice(0, 10);
         return this.load();
     }
