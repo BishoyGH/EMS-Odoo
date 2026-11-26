@@ -111,4 +111,17 @@
             (0, 0, {'view_mode': 'list', 'view_id': ref('view_ems_client_invoice_list')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('account.view_move_form')})]"/>
     </record>
+
+    <record id="view_move_form_ems_documents" model="ir.ui.view">
+        <field name="name">account.move.form.ems.documents</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="ems_payments.view_move_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Documents" name="ems_documents" groups="ems_base.group_ems_user">
+                    <field name="ems_document_ids" context="{'default_res_model': 'account.move'}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>

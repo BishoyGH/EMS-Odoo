@@ -9,6 +9,7 @@
         'views/ems_allocation_views.xml',
         'views/hr_employee_views.xml',
         'wizard/ems_weekly_plan_views.xml',
+        'wizard/ems_plan_person_views.xml',
         'report/weekly_plan_report.xml',
         'views/menus.xml',
     ],

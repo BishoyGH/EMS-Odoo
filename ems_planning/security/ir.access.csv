@@ -2,3 +2,4 @@ id,name,model_id,group_id/id,operation,domain
 access_ems_allocation_user,ems.allocation user,ems.allocation,ems_base.group_ems_user,r,
 access_ems_allocation_mgr,ems.allocation manager,ems.allocation,ems_base.group_ems_manager,crud,
 access_ems_weekly_plan_wiz,ems.weekly.plan.wizard,ems.weekly.plan.wizard,ems_base.group_ems_user,crud,
+access_ems_plan_person_wizard,ems.plan.person.wizard,ems.plan.person.wizard,ems_base.group_ems_user,crud,

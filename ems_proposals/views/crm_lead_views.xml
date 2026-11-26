@@ -9,6 +9,10 @@
                 <button name="action_add_revision" string="Add Revision" type="object" invisible="type != 'opportunity'"/>
                 <button name="action_create_project" string="Create Project" type="object"
                         invisible="type != 'opportunity' or ems_project_id" groups="ems_base.group_ems_manager"/>
+                <button name="action_link_project" string="Link Project" type="object"
+                        invisible="type != 'opportunity' or ems_project_id" groups="ems_base.group_ems_manager"/>
+                <button name="action_ems_proposal_docx" string="Proposal (.docx)" type="object" icon="fa-file-word-o"
+                        invisible="type != 'opportunity'"/>
                 <button name="action_open_project" string="Open Project" type="object" invisible="not ems_project_id"/>
                 <button name="action_unlink_project" string="Unlink Project" type="object" invisible="not ems_project_id"
                         groups="ems_base.group_ems_manager"/>
@@ -162,5 +166,18 @@
         <field name="domain">[('type', '=', 'opportunity'), ('ems_next_follow_up', '!=', False)]</field>
         <field name="search_view_id" ref="crm_lead_search_ems"/>
         <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('crm_lead_list_ems')})]"/>
+    </record>
+
+    <record id="crm_lead_form_ems_documents" model="ir.ui.view">
+        <field name="name">crm.lead.form.ems.documents</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="ems_proposals.crm_lead_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Documents" name="ems_documents" groups="ems_base.group_ems_user">
+                    <field name="ems_document_ids" context="{'default_res_model': 'crm.lead'}"/>
+                </page>
+            </xpath>
+        </field>
     </record>
 </odoo>

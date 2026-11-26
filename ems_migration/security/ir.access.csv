@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_ems_data_issue_user,ems.data.issue user,ems.data.issue,ems_base.group_ems_user,r,
+access_ems_data_issue_mgr,ems.data.issue manager,ems.data.issue,ems_base.group_ems_manager,crud,
+access_ems_migration_run_admin,ems.migration.run admin,ems.migration.run,ems_base.group_ems_admin,crud,
+access_ems_import_wizard_mgr,ems.import.wizard manager,ems.import.wizard,ems_base.group_ems_manager,crud,
+access_ems_migration_summary_admin,ems.migration.summary admin,ems.migration.summary,ems_base.group_ems_admin,crud,

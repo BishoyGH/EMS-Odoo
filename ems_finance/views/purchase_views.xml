@@ -34,4 +34,7 @@
         <field name="domain">[('state', 'in', ('purchase', 'done'))]</field>
         <field name="context">{'search_default_ems_project': 1}</field>
     </record>
+    <record id="ems_register.action_ems_register_pos" model="ir.actions.act_window">
+        <field name="domain">['|', ('ems_project_id', '!=', False), ('ems_overhead', '=', True)]</field>
+    </record>
 </odoo>

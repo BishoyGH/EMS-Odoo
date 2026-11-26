@@ -26,3 +26,6 @@ class HrEmployee(models.Model):
         """Internal cost rate: override first, then grade. Needs the rates group."""
         self.ensure_one()
         return self.sudo().ems_cost_rate or self.sudo().ems_grade_id.cost_rate or 0.0
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'hr.employee')])

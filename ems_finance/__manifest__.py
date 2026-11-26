@@ -21,6 +21,7 @@
         'views/ems_ar_aging_views.xml',
         'views/res_config_settings_views.xml',
         'wizard/ems_award_wizard_views.xml',
+        'wizard/ems_milestones_from_fees_views.xml',
         'views/menus.xml',
     ],
     'demo': ['demo/ems_finance_demo.xml'],

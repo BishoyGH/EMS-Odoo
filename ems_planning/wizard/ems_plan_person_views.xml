@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_plan_person_wizard" model="ir.ui.view">
+        <field name="name">ems.plan.person.wizard.form</field>
+        <field name="model">ems.plan.person.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Plan a Person">
+                <group>
+                    <group>
+                        <field name="milestone_id" readonly="1"/>
+                        <field name="employee_id" options="{'no_create': True}"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="hours_per_day"/>
+                        <field name="tentative"/>
+                    </group>
+                </group>
+                <div class="text-muted" invisible="not capacity_note"><field name="capacity_note"/></div>
+                <footer>
+                    <button name="action_confirm" string="Plan" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_ems_milestone_form_plan" model="ir.ui.view">
+        <field name="name">ems.milestone.form.plan</field>
+        <field name="model">project.milestone</field>
+        <field name="inherit_id" ref="ems_services.view_ems_milestone_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ems_plan_person" string="Plan a Person" type="object" icon="fa-user-plus"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_tracking_log_wizard" model="ir.ui.view">
+        <field name="name">ems.tracking.log.wizard.form</field>
+        <field name="model">ems.tracking.log.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Tracking Log">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="project_id"/>
+                        <field name="state"/>
+                    </group>
+                </group>
+                <group invisible="not file">
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_export" string="Generate XLSX" type="object" class="btn-primary"/>
+                    <button string="Close" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_ems_tracking_log" model="ir.actions.act_window">
+        <field name="name">Export Tracking Log</field>
+        <field name="res_model">ems.tracking.log.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -93,4 +93,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="purchase_order_form_ems_documents" model="ir.ui.view">
+        <field name="name">purchase.order.form.ems.documents</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="ems_register.purchase_order_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Documents" name="ems_documents" groups="ems_base.group_ems_user">
+                    <field name="ems_document_ids" context="{'default_res_model': 'purchase.order'}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>

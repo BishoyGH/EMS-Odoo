@@ -26,6 +26,7 @@
                     <button name="action_decline" string="Declined" type="object" invisible="state != 'sent'"/>
                     <button name="action_withdraw" string="Withdraw" type="object" invisible="state not in ('draft', 'sent')"/>
                     <button name="action_create_employee" string="Create Employee" type="object" invisible="state != 'accepted' or employee_id"/>
+                    <button name="action_export_docx" string="Export Word" type="object" icon="fa-file-word-o"/>
                     <button name="action_reset" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,accepted"/>
                 </header>

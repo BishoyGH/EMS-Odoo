@@ -215,6 +215,14 @@ class ProjectProject(models.Model):
                 })
         return True
 
+    def action_ems_milestones_from_fees(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window', 'name': _('Milestones from Fee Stages'),
+            'res_model': 'ems.milestones.from.fees', 'view_mode': 'form', 'target': 'new',
+            'context': {'default_project_id': self.id},
+        }
+
     def action_view_ems_wbs(self):
         self.ensure_one()
         return {

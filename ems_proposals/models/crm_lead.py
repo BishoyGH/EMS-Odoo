@@ -1,5 +1,10 @@
+import base64
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools import html2plaintext
+
+from odoo.addons.ems_base.tools.docx_builder import build_docx
 
 
 class CrmLead(models.Model):
@@ -92,6 +97,45 @@ class CrmLead(models.Model):
             'res_id': self.ems_project_id.id, 'view_mode': 'form',
         }
 
+    def action_link_project(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window', 'name': _('Link Existing Project'),
+            'res_model': 'ems.link.project.wizard', 'view_mode': 'form', 'target': 'new',
+            'context': {'default_lead_id': self.id},
+        }
+
+    def action_ems_proposal_docx(self):
+        """Generate the proposal cover document (.docx) and file it in the Documents tab."""
+        self.ensure_one()
+        revisions = self.ems_revision_ids.sorted(lambda r: (r.date, r.id))
+        blocks = [
+            ('title', _('Proposal %s') % (self.ems_number or '')),
+            ('h1', self.name),
+            ('table', [
+                [_('Client'), self.partner_id.name or ''],
+                [_('End client'), self.ems_end_client_id.name or ''],
+                [_('Location / plot'), ' / '.join(filter(None, [self.ems_location, self.ems_plot]))],
+                [_('Discipline'), self.ems_discipline or ''],
+                [_('Latest revision'), self.ems_last_revision or ''],
+                [_('Fee (ex VAT)'), '%.2f' % self.ems_last_fee],
+            ]),
+            ('h2', _('Scope of services')),
+            ('p', self.ems_scope or html2plaintext(self.description or '')),
+            ('h2', _('Fee revisions')),
+            ('table', [[_('Revision'), _('Date'), _('Amount (ex VAT)'), _('Note')]]
+                      + [[r.revision, str(r.date), '%.2f' % r.amount, r.note or ''] for r in revisions]),
+            ('p', _('Fees exclude VAT. Optional services are quoted separately and are not part of the award until accepted.')),
+        ]
+        filename = 'Proposal %s.docx' % (self.ems_number or self.id)
+        doc = self.env['ems.document'].create({
+            'name': filename, 'category': 'proposal', 'filename': filename,
+            'file': base64.b64encode(build_docx(blocks)).decode(),
+            'res_model': self._name, 'res_id': self.id,
+        })
+        return {'type': 'ir.actions.act_url', 'target': 'self',
+                'url': '/web/content/ems.document/%s/file/%s?download=true' % (doc.id, filename)}
+
     def action_unlink_project(self):
         self.write({'ems_project_id': False})
 
@@ -100,3 +144,10 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     ems_proposal_id = fields.Many2one('crm.lead', string='Proposal', copy=False)
+
+
+class CrmLeadDocs(models.Model):
+    _inherit = 'crm.lead'
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'crm.lead')])

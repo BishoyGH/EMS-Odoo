@@ -8,6 +8,8 @@
             <xpath expr="//header" position="inside">
                 <button name="action_ems_apply_wbs" string="Apply WBS P0-P7" type="object"
                         invisible="ems_wbs_count >= 8" groups="ems_base.group_ems_user"/>
+                <button name="action_ems_milestones_from_fees" string="Milestones from Fee Stages" type="object"
+                        invisible="not ems_fee_stage_ids" groups="ems_base.group_ems_manager"/>
                 <button name="action_ems_close" string="Close Project" type="object" class="btn-primary"
                         invisible="ems_closed" groups="ems_base.group_ems_manager"
                         confirm="Closing needs technical issues, open POs, unbilled WIP, AR and costs reviewed. Continue?"/>

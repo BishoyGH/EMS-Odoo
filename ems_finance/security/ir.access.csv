@@ -8,3 +8,4 @@ access_ems_profit_snapshot_mgr,ems.profit.snapshot manager,ems.profit.snapshot,e
 access_ems_ar_aging_user,ems.ar.aging user,ems.ar.aging,ems_base.group_ems_user,r,
 access_ems_award_wizard_mgr,ems.award.wizard manager,ems.award.wizard,ems_base.group_ems_manager,crud,
 access_ems_award_wizard_line_mgr,ems.award.wizard.line manager,ems.award.wizard.line,ems_base.group_ems_manager,crud,
+access_ems_milestones_from_fees,ems.milestones.from.fees,ems.milestones.from.fees,ems_base.group_ems_manager,crud,

@@ -20,6 +20,7 @@
     <menuitem id="menu_ems_reg_vendors" name="Vendors" parent="menu_ems_register_root" action="ems_base.action_ems_vendors" sequence="30"/>
     <menuitem id="menu_ems_reg_pos" name="Purchase Orders" parent="menu_ems_register_root" action="action_ems_register_pos" sequence="40"/>
     <menuitem id="menu_ems_reg_bills" name="Vendor Bills" parent="menu_ems_register_root" action="action_ems_vendor_bills" sequence="50"/>
+    <menuitem id="menu_ems_reg_tracking" name="Export Tracking Log" parent="menu_ems_register_root" action="action_ems_tracking_log" sequence="60"/>
     <menuitem id="menu_ems_reg_terms" name="Standard Terms" parent="menu_ems_register_root" action="action_ems_loa_clause" sequence="90"
               groups="ems_base.group_ems_manager"/>
 </odoo>
