@@ -1,4 +1,9 @@
-from odoo import api, fields, models
+import base64
+
+from odoo import api, fields, models, _
+from odoo.tools import html2plaintext
+
+from odoo.addons.ems_base.tools.docx_builder import build_docx
 
 
 class EmsOffer(models.Model):
@@ -90,3 +95,51 @@ class EmsOffer(models.Model):
             'type': 'ir.actions.act_window', 'res_model': 'hr.employee',
             'res_id': emp.id, 'view_mode': 'form',
         }
+
+    def _ems_docx_blocks(self):
+        self.ensure_one()
+        can_see_pay = self.env.user.has_group('ems_base.group_ems_rates')
+        blocks = [
+            ('title', _('Offer of Employment')),
+            ('p', self.company_id.name or ''),
+            ('p', _('Date: %s') % (self.offer_date or '')),
+            ('p', _('Dear %s,') % self.candidate),
+            ('h1', _('Position: %s') % (self.job_id.name or '')),
+            ('p', html2plaintext(self.letter_body or '')),
+            ('h2', _('Terms')),
+            ('table', [
+                [_('Item'), _('Detail')],
+                [_('Proposed start date'), str(self.start_date or '')],
+                [_('Reports to'), self.manager_id.name or ''],
+                [_('Probation'), _('%s months') % self.probation_months],
+                [_('Notice period'), _('%s days') % self.notice_days],
+                [_('Annual leave'), _('%s days') % self.leave_days],
+                [_('Air ticket'), self.air_ticket or ''],
+                [_('Valid until'), str(self.valid_until or '')],
+            ]),
+        ]
+        if can_see_pay:
+            blocks += [('h2', _('Monthly package')), ('table', [
+                [_('Component'), _('Amount')],
+                [_('Basic'), '%.2f' % self.salary_basic],
+                [_('Housing'), '%.2f' % self.salary_housing],
+                [_('Transport'), '%.2f' % self.salary_transport],
+                [_('Other allowances'), '%.2f' % self.salary_other],
+                [_('Total monthly'), '%.2f' % self.salary_total],
+            ])]
+        blocks += [('h2', _('Job description')), ('p', html2plaintext(self.job_description or ''))]
+        if self.benefits:
+            blocks += [('h2', _('Other benefits')), ('p', self.benefits)]
+        blocks += [('p', _('Yours sincerely,')), ('bold', self.signatory_id.name or '')]
+        return blocks
+
+    def action_export_docx(self):
+        """Word export of the offer letter (editable copy of the PDF)."""
+        self.ensure_one()
+        attachment = self.env['ir.attachment'].create({
+            'name': '%s.docx' % self.name.replace('/', '-'),
+            'datas': base64.b64encode(build_docx(self._ems_docx_blocks())).decode(),
+            'res_model': self._name, 'res_id': self.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        })
+        return {'type': 'ir.actions.act_url', 'url': '/web/content/%s?download=true' % attachment.id, 'target': 'self'}

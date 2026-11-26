@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_ems_wbs_template_user,ems.wbs.template user,ems.wbs.template,ems_base.group_ems_user,r,
+access_ems_wbs_template_admin,ems.wbs.template admin,ems.wbs.template,ems_base.group_ems_admin,crud,
+access_ems_variation_user,ems.variation user,ems.variation,ems_base.group_ems_user,cru,
+access_ems_variation_mgr,ems.variation manager,ems.variation,ems_base.group_ems_manager,crud,
+access_ems_profit_snapshot_user,ems.profit.snapshot user,ems.profit.snapshot,ems_base.group_ems_user,r,
+access_ems_profit_snapshot_mgr,ems.profit.snapshot manager,ems.profit.snapshot,ems_base.group_ems_manager,crud,
+access_ems_ar_aging_user,ems.ar.aging user,ems.ar.aging,ems_base.group_ems_user,r,
+access_ems_award_wizard_mgr,ems.award.wizard manager,ems.award.wizard,ems_base.group_ems_manager,crud,
+access_ems_award_wizard_line_mgr,ems.award.wizard.line manager,ems.award.wizard.line,ems_base.group_ems_manager,crud,
+access_ems_milestones_from_fees,ems.milestones.from.fees,ems.milestones.from.fees,ems_base.group_ems_manager,crud,

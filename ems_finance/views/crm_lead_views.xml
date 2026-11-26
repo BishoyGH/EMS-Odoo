@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_form_ems_finance" model="ir.ui.view">
+        <field name="name">crm.lead.form.ems.finance</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ems_bid" string="Approve to Quote" type="object" class="btn-secondary"
+                        invisible="type != 'opportunity' or ems_bid_decision == 'bid'" groups="ems_base.group_ems_manager"/>
+                <button name="action_ems_no_bid" string="No Bid" type="object" class="btn-secondary"
+                        invisible="type != 'opportunity' or ems_bid_decision == 'no_bid'" groups="ems_base.group_ems_manager"/>
+                <button name="action_ems_award" string="Award from Signed PO" type="object" class="btn-primary"
+                        invisible="type != 'opportunity' or ems_project_id" groups="ems_base.group_ems_manager"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_ems_awards" type="object" class="oe_stat_button" icon="fa-handshake-o"
+                        invisible="ems_award_count == 0" groups="ems_base.group_ems_user">
+                    <field name="ems_award_count" widget="statinfo" string="Awards"/>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='ems_proposal']" position="after">
+                <page string="Bid / No-bid" name="ems_bid" groups="ems_base.group_ems_user">
+                    <group>
+                        <group>
+                            <field name="ems_rfp_date"/>
+                            <field name="ems_bid_decision" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group>
+                            <field name="ems_bid_approved_by"/>
+                            <field name="ems_bid_date"/>
+                        </group>
+                    </group>
+                    <field name="ems_bid_notes" placeholder="Capacity, conflict of interest, expected hours, margin, risk..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

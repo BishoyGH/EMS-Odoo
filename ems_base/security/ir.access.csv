@@ -1,1 +1,6 @@
 id,name,model_id,group_id/id,operation,domain
+access_ems_document_user,ems.document user,ems.document,ems_base.group_ems_user,crud,
+access_ems_audit_user,ems.audit.log user,ems.audit.log,ems_base.group_ems_user,r,
+access_ems_audit_admin,ems.audit.log admin,ems.audit.log,ems_base.group_ems_admin,r,
+access_ems_approval_rule_user,ems.approval.rule user,ems.approval.rule,ems_base.group_ems_user,r,
+access_ems_approval_rule_admin,ems.approval.rule admin,ems.approval.rule,ems_base.group_ems_admin,crud,

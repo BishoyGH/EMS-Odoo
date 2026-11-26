@@ -37,3 +37,6 @@ class ProjectProject(models.Model):
             if not vals.get('ems_code'):
                 vals['ems_code'] = self.env['ir.sequence'].next_by_code('ems.project.code')
         return super().create(vals_list)
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'project.project')])

@@ -14,6 +14,7 @@
         'views/project_views.xml',
         'views/res_config_settings_views.xml',
         'report/purchase_report.xml',
+        'wizard/ems_tracking_log_views.xml',
         'views/menus.xml',
     ],
     'demo': ['demo/ems_register_demo.xml'],

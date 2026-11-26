@@ -37,3 +37,10 @@ class AccountMove(models.Model):
                 move.activity_schedule(
                     activity_type_id=todo.id, summary='Follow up overdue invoice',
                     user_id=move.invoice_user_id.id or self.env.uid)
+
+
+class AccountMoveDocs(models.Model):
+    _inherit = 'account.move'
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'account.move')])

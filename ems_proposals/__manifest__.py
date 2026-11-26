@@ -12,6 +12,7 @@
         'views/res_partner_views.xml',
         'wizard/ems_add_revision_views.xml',
         'wizard/ems_create_project_views.xml',
+        'wizard/ems_link_project_views.xml',
         'views/menus.xml',
     ],
     'demo': ['demo/ems_proposals_demo.xml'],

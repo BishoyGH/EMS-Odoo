@@ -3,3 +3,4 @@ access_ems_loa_clause_user,ems.loa.clause user,ems.loa.clause,ems_base.group_ems
 access_ems_loa_clause_mgr,ems.loa.clause manager,ems.loa.clause,ems_base.group_ems_manager,crud,
 access_ems_po_milestone_user,ems.po.milestone user,ems.po.milestone,ems_base.group_ems_user,cru,
 access_ems_po_milestone_mgr,ems.po.milestone manager,ems.po.milestone,ems_base.group_ems_manager,crud,
+access_ems_tracking_log_wizard,ems.tracking.log.wizard,ems.tracking.log.wizard,ems_base.group_ems_user,crud,

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_data_issue_list" model="ir.ui.view">
+        <field name="name">ems.data.issue.list</field>
+        <field name="model">ems.data.issue</field>
+        <field name="arch" type="xml">
+            <list string="Data Issues" decoration-danger="severity == '1_critical' and state == 'open'"
+                  decoration-warning="severity == '2_high' and state == 'open'" decoration-muted="state != 'open'">
+                <field name="severity" widget="badge"/>
+                <field name="name"/>
+                <field name="record_name"/>
+                <field name="resolution" optional="show"/>
+                <field name="owner_id" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_data_issue_form" model="ir.ui.view">
+        <field name="name">ems.data.issue.form</field>
+        <field name="model">ems.data.issue</field>
+        <field name="arch" type="xml">
+            <form string="Data Issue">
+                <header>
+                    <button name="action_resolve" string="Resolved" type="object" class="btn-primary" invisible="state != 'open'"/>
+                    <button name="action_accept" string="Accept as is" type="object" invisible="state != 'open'"/>
+                    <button name="action_open_record" string="Open Record" type="object" invisible="not res_id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group><field name="severity"/><field name="code"/><field name="owner_id"/></group>
+                        <group><field name="record_name"/><field name="source"/><field name="resolution"/></group>
+                    </group>
+                    <field name="res_model" invisible="1"/><field name="res_id" invisible="1"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_ems_data_issue_search" model="ir.ui.view">
+        <field name="name">ems.data.issue.search</field>
+        <field name="model">ems.data.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="record_name"/><field name="code"/>
+                <filter name="open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="critical" string="Critical / High" domain="[('severity', 'in', ('1_critical', '2_high'))]"/>
+                <group><filter name="grp_sev" string="Severity" context="{'group_by': 'severity'}"/>
+                       <filter name="grp_code" string="Type" context="{'group_by': 'code'}"/>
+                       <filter name="grp_state" string="Status" context="{'group_by': 'state'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_ems_data_issues" model="ir.actions.act_window">
+        <field name="name">Data Issues</field>
+        <field name="res_model">ems.data.issue</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open': 1, 'search_default_grp_sev': 1}</field>
+    </record>
+</odoo>

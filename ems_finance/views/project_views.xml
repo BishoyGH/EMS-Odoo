@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_ems_finance" model="ir.ui.view">
+        <field name="name">project.project.form.ems.finance</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ems_base.view_project_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ems_apply_wbs" string="Apply WBS P0-P7" type="object"
+                        invisible="ems_wbs_count >= 8" groups="ems_base.group_ems_user"/>
+                <button name="action_ems_milestones_from_fees" string="Milestones from Fee Stages" type="object"
+                        invisible="not ems_fee_stage_ids" groups="ems_base.group_ems_manager"/>
+                <button name="action_ems_close" string="Close Project" type="object" class="btn-primary"
+                        invisible="ems_closed" groups="ems_base.group_ems_manager"
+                        confirm="Closing needs technical issues, open POs, unbilled WIP, AR and costs reviewed. Continue?"/>
+                <button name="action_ems_reopen" string="Reopen" type="object" invisible="not ems_closed"
+                        groups="ems_base.group_ems_admin"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_ems_variations" type="object" class="oe_stat_button" icon="fa-exchange"
+                        groups="ems_base.group_ems_user">
+                    <field name="ems_variation_count" widget="statinfo" string="Variations"/>
+                </button>
+                <button name="action_view_ems_wbs" type="object" class="oe_stat_button" icon="fa-sitemap"
+                        groups="ems_base.group_ems_user">
+                    <field name="ems_wbs_count" widget="statinfo" string="WBS"/>
+                </button>
+                <button name="action_view_ems_timesheets" type="object" class="oe_stat_button" icon="fa-clock-o"
+                        groups="ems_base.group_ems_user">
+                    <field name="ems_hours_actual" widget="statinfo" string="Approved Hours"/>
+                </button>
+                <button name="action_view_ems_sale_order" type="object" class="oe_stat_button" icon="fa-handshake-o"
+                        invisible="not ems_sale_order_id" groups="ems_base.group_ems_user">
+                    <div class="o_stat_info"><span class="o_stat_text">Award</span></div>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='ems_contract']" position="after">
+                <page string="Award &amp; Baseline" name="ems_baseline" groups="ems_base.group_ems_user">
+                    <group>
+                        <group string="Chain">
+                            <field name="ems_proposal_id" readonly="1"/>
+                            <field name="ems_sale_order_id" readonly="1"/>
+                            <field name="account_id" string="Analytic Account" readonly="1"/>
+                            <field name="ems_ntp_date"/>
+                            <field name="ems_mobilised"/>
+                        </group>
+                        <group string="Baseline (immutable after award)">
+                            <field name="ems_baseline_value"/>
+                            <field name="ems_baseline_date"/>
+                            <field name="ems_baseline_hours"/>
+                            <field name="ems_excluded_amount"/>
+                            <field name="ems_variation_pending"/>
+                        </group>
+                    </group>
+                    <field name="ems_variation_ids" readonly="1">
+                        <list>
+                            <field name="name"/><field name="title"/><field name="amount" sum="Total"/><field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Economics" name="ems_economics" groups="ems_base.group_ems_rates">
+                    <group>
+                        <group string="Revenue and cash">
+                            <field name="ems_total_value"/>
+                            <field name="ems_invoiced"/>
+                            <field name="ems_collected"/>
+                            <field name="ems_outstanding"/>
+                        </group>
+                        <group string="Cost (no double counting)">
+                            <field name="ems_planned_labour"/>
+                            <field name="ems_actual_labour"/>
+                            <field name="ems_vendor_billed"/>
+                            <field name="ems_open_commitment"/>
+                            <field name="ems_etc_labour"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Margin">
+                            <field name="ems_eac"/>
+                            <field name="ems_forecast_margin"/>
+                            <field name="ems_forecast_margin_pct" widget="percentage"/>
+                            <field name="ems_realised_margin"/>
+                            <field name="ems_overhead_amount"/>
+                            <field name="ems_margin_after_overhead"/>
+                        </group>
+                        <group string="Hours and budget">
+                            <field name="ems_hours_budget" widget="float_time"/>
+                            <field name="ems_hours_actual" widget="float_time"/>
+                            <field name="ems_hours_unapproved" widget="float_time"/>
+                            <field name="ems_cost_variance"/>
+                        </group>
+                    </group>
+                    <button name="action_ems_snapshot" type="object" string="Take Profit Snapshot" class="btn-secondary"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='ems_variation_value']" position="attributes">
+                <attribute name="readonly">ems_variation_count > 0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

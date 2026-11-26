@@ -9,10 +9,17 @@
         'views/ems_allocation_views.xml',
         'views/hr_employee_views.xml',
         'wizard/ems_weekly_plan_views.xml',
+        'wizard/ems_plan_person_views.xml',
         'report/weekly_plan_report.xml',
+        'views/planner_action.xml',
         'views/menus.xml',
     ],
     'demo': ['demo/ems_planning_demo.xml'],
+    'assets': {
+        'web.assets_backend': [
+            'ems_planning/static/src/**/*',
+        ],
+    },
     'author': 'EMS',
     'license': 'LGPL-3',
     'application': True,

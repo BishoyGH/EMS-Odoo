@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_import_root" name="Data Migration" parent="ems_base.menu_ems_config_root" sequence="80"
+              groups="ems_base.group_ems_manager"/>
+    <menuitem id="menu_ems_migration_run" name="Migration from .dat" parent="menu_ems_import_root" action="action_ems_migration_run"
+              sequence="10" groups="ems_base.group_ems_admin"/>
+    <menuitem id="menu_ems_data_issues" name="Data Issues" parent="menu_ems_import_root" action="action_ems_data_issues" sequence="20"/>
+    <menuitem id="menu_ems_import_templates" name="Excel Import Templates" parent="menu_ems_import_root"
+              action="action_ems_import_wizard" sequence="30"/>
+</odoo>

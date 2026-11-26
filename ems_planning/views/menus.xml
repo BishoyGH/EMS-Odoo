@@ -2,7 +2,8 @@
 <odoo>
     <menuitem id="menu_ems_planning_root" name="EMS Planning" sequence="50"
               groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
-    <menuitem id="menu_ems_plan_planner" name="Planner" parent="menu_ems_planning_root" action="action_ems_planner" sequence="10"/>
+    <menuitem id="menu_ems_plan_grid" name="Planner" parent="menu_ems_planning_root" action="action_ems_planner_grid" sequence="5"/>
+    <menuitem id="menu_ems_plan_planner" name="Calendar" parent="menu_ems_planning_root" action="action_ems_planner" sequence="10"/>
     <menuitem id="menu_ems_plan_weekly" name="Weekly Plan" parent="menu_ems_planning_root" action="action_ems_weekly_plan" sequence="20"/>
     <menuitem id="menu_ems_plan_util" name="Utilisation" parent="menu_ems_planning_root" action="action_ems_utilisation" sequence="30"/>
     <menuitem id="menu_ems_plan_booking" name="Booked Today" parent="menu_ems_planning_root" action="action_ems_booking" sequence="35"/>

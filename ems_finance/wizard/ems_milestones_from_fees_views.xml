@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_milestones_from_fees" model="ir.ui.view">
+        <field name="name">ems.milestones.from.fees.form</field>
+        <field name="model">ems.milestones.from.fees</field>
+        <field name="arch" type="xml">
+            <form string="Milestones from Fee Stages">
+                <group>
+                    <field name="project_id" readonly="1"/>
+                    <field name="service_id"/>
+                    <field name="skip_existing"/>
+                </group>
+                <field name="stage_ids">
+                    <list><field name="sequence" widget="handle"/><field name="name"/><field name="trigger"/>
+                          <field name="percent"/><field name="amount"/></list>
+                </field>
+                <footer>
+                    <button name="action_confirm" string="Create Milestones" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

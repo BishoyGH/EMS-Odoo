@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- EMS users work with timesheets; managers can handle quotations/orders for awards. -->
+    <record id="ems_base.group_ems_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('hr_timesheet.group_hr_timesheet_user'))]"/>
+    </record>
+    <record id="ems_base.group_ems_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('hr_timesheet.group_hr_timesheet_approver'))]"/>
+    </record>
+</odoo>

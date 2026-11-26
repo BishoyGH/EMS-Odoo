@@ -144,3 +144,10 @@ class PurchaseOrderLine(models.Model):
                 if 'uom_id' in fields_list and not res.get('uom_id'):
                     res['uom_id'] = product.uom_id.id
         return res
+
+
+class PurchaseOrderDocs(models.Model):
+    _inherit = 'purchase.order'
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'purchase.order')])

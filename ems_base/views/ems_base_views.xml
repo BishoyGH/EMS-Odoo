@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Documents (categorised attachments, the exe's Documents tabs) -->
+    <record id="view_ems_document_list" model="ir.ui.view">
+        <field name="name">ems.document.list</field>
+        <field name="model">ems.document</field>
+        <field name="arch" type="xml">
+            <list string="Documents" editable="bottom">
+                <field name="category"/>
+                <field name="name"/>
+                <field name="file" filename="filename" widget="binary"/>
+                <field name="filename" column_invisible="1"/>
+                <field name="date"/>
+                <field name="note" optional="show"/>
+                <field name="user_id" optional="hide" readonly="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_document_search" model="ir.ui.view">
+        <field name="name">ems.document.search</field>
+        <field name="model">ems.document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category"/>
+                <filter name="grp_category" string="Category" context="{'group_by': 'category'}"/>
+                <filter name="grp_model" string="Record type" context="{'group_by': 'res_model'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_ems_documents" model="ir.actions.act_window">
+        <field name="name">All Documents</field>
+        <field name="res_model">ems.document</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_grp_category': 1}</field>
+    </record>
+
+    <!-- Approval matrix -->
+    <record id="view_ems_approval_rule_list" model="ir.ui.view">
+        <field name="name">ems.approval.rule.list</field>
+        <field name="model">ems.approval.rule</field>
+        <field name="arch" type="xml">
+            <list string="Approval Matrix" editable="bottom">
+                <field name="gate"/>
+                <field name="min_amount"/>
+                <field name="group_id"/>
+                <field name="no_self_approval"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_ems_approval_rules" model="ir.actions.act_window">
+        <field name="name">Approval Matrix</field>
+        <field name="res_model">ems.approval.rule</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Audit trail -->
+    <record id="view_ems_audit_list" model="ir.ui.view">
+        <field name="name">ems.audit.log.list</field>
+        <field name="model">ems.audit.log</field>
+        <field name="arch" type="xml">
+            <list string="Audit Trail" create="0" edit="0" delete="0" default_order="id desc">
+                <field name="date"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="area" widget="badge"/>
+                <field name="res_model"/>
+                <field name="record_name"/>
+                <field name="field_label"/>
+                <field name="old_value"/>
+                <field name="new_value"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_audit_search" model="ir.ui.view">
+        <field name="name">ems.audit.log.search</field>
+        <field name="model">ems.audit.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="record_name"/>
+                <field name="user_id"/>
+                <field name="field_label"/>
+                <filter name="f_price" string="Prices" domain="[('area', '=', 'price')]"/>
+                <filter name="f_rate" string="Rates" domain="[('area', '=', 'rate')]"/>
+                <filter name="f_trigger" string="Milestone triggers" domain="[('area', '=', 'trigger')]"/>
+                <filter name="f_baseline" string="Baseline" domain="[('area', '=', 'baseline')]"/>
+                <filter name="f_closure" string="Closure" domain="[('area', '=', 'closure')]"/>
+                <group>
+                    <filter name="grp_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="grp_area" string="Area" context="{'group_by': 'area'}"/>
+                    <filter name="grp_day" string="Day" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_ems_audit_form" model="ir.ui.view">
+        <field name="name">ems.audit.log.form</field>
+        <field name="model">ems.audit.log</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <header><button name="action_open_record" type="object" string="Open Record"/></header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/><field name="user_id"/><field name="area"/>
+                        </group>
+                        <group>
+                            <field name="res_model"/><field name="record_name"/><field name="field_label"/>
+                        </group>
+                    </group>
+                    <group><field name="old_value"/><field name="new_value"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_ems_audit" model="ir.actions.act_window">
+        <field name="name">Audit Trail</field>
+        <field name="res_model">ems.audit.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Project: Documents tab -->
+    <record id="view_project_form_ems_documents" model="ir.ui.view">
+        <field name="name">project.project.form.ems.documents</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ems_base.view_project_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Documents" name="ems_documents" groups="ems_base.group_ems_user">
+                    <field name="ems_document_ids" context="{'default_res_model': 'project.project'}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_form_ems_documents" model="ir.ui.view">
+        <field name="name">res.partner.form.ems.documents</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="ems_base.view_partner_form_ems"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Documents" name="ems_documents" groups="ems_base.group_ems_user">
+                    <field name="ems_document_ids" context="{'default_res_model': 'res.partner'}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_ems_documents" name="Documents" parent="menu_ems_config_root" action="action_ems_documents" sequence="10"/>
+    <menuitem id="menu_ems_approval_rules" name="Approval Matrix" parent="menu_ems_config_root" action="action_ems_approval_rules" sequence="20"
+              groups="ems_base.group_ems_admin"/>
+    <menuitem id="menu_ems_audit" name="Audit Trail" parent="menu_ems_config_root" action="action_ems_audit" sequence="30"
+              groups="ems_base.group_ems_admin"/>
+</odoo>

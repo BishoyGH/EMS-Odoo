@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_award" model="product.template">
+            <field name="name">EMS awarded scope (lump sum)</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="list_price">0</field>
+        </record>
+        <record id="analytic_overhead" model="account.analytic.account">
+            <field name="name">Office Overhead</field>
+            <field name="plan_id" ref="analytic.analytic_plan_projects"/>
+        </record>
+
+        <!-- WBS P0-P7 (functional specification) -->
+        <record id="wbs_p0" model="ems.wbs.template"><field name="sequence">10</field><field name="code">P0</field>
+            <field name="name">Contract / NTP check; RFP scope matrix; document register; kickoff</field>
+            <field name="gate">Project baseline accepted</field><field name="budget_pct">5</field></record>
+        <record id="wbs_p1" model="ems.wbs.template"><field name="sequence">20</field><field name="code">P1</field>
+            <field name="name">Receive structural/architectural plans, analysis models, geotechnical information, design criteria and supporting studies; log missing data</field>
+            <field name="gate">Review readiness checklist</field><field name="budget_pct">10</field></record>
+        <record id="wbs_p2" model="ems.wbs.template"><field name="sequence">30</field><field name="code">P2</field>
+            <field name="name">Initial assessment: gravity/lateral system, load path, primary model checks, drawing coordination</field>
+            <field name="gate">Initial comments / CRS</field><field name="budget_pct">20</field></record>
+        <record id="wbs_p3" model="ems.wbs.template"><field name="sequence">40</field><field name="code">P3</field>
+            <field name="name">Review enabling works and piling package, as applicable to PO</field>
+            <field name="gate">Piling report / letter</field><field name="budget_pct">10</field></record>
+        <record id="wbs_p4" model="ems.wbs.template"><field name="sequence">50</field><field name="code">P4</field>
+            <field name="name">Detailed analysis and code review; issue CRS and standard VE observations</field>
+            <field name="gate">Detailed CRS, markups, technical report</field><field name="budget_pct">30</field></record>
+        <record id="wbs_p5" model="ems.wbs.template"><field name="sequence">60</field><field name="code">P5</field>
+            <field name="name">Receive designer response, classify comments open/closed/accepted risk, conduct meetings and re-check</field>
+            <field name="gate">Comment close-out evidence</field><field name="budget_pct">15</field></record>
+        <record id="wbs_p6" model="ems.wbs.template"><field name="sequence">70</field><field name="code">P6</field>
+            <field name="name">Final internal independent check, approval and authority submission response</field>
+            <field name="gate">Certificate / stamped drawings subject to requirements</field><field name="budget_pct">8</field></record>
+        <record id="wbs_p7" model="ems.wbs.template"><field name="sequence">80</field><field name="code">P7</field>
+            <field name="name">Commercial closure and archive, final invoice and client/authority approval</field>
+            <field name="gate">Accepted handover, financial close</field><field name="budget_pct">2</field></record>
+
+        <record id="cron_ems_profit_snapshot" model="ir.cron">
+            <field name="name">EMS: weekly profit snapshot of active projects</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_ems_profit_snapshot()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+        </record>
+    </data>
+</odoo>

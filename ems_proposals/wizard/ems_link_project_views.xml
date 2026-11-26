@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_link_project_wizard" model="ir.ui.view">
+        <field name="name">ems.link.project.wizard.form</field>
+        <field name="model">ems.link.project.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Link Existing Project">
+                <group>
+                    <field name="lead_id" invisible="1"/>
+                    <field name="project_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Link Project" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
