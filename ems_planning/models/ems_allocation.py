@@ -26,6 +26,9 @@ class EmsAllocation(models.Model):
                         groups='ems_base.group_ems_rates')
     week_start = fields.Date(compute='_compute_week_start', store=True)
     overbooked = fields.Boolean(compute='_compute_overbooked')
+    hours_per_week = fields.Float('Hours / Week', compute='_compute_hours_per_week',
+                                  inverse='_inverse_hours_per_week', store=True, readonly=False)
+    engagement_pct = fields.Float('Engagement %', compute='_compute_engagement')
 
     @api.constrains('date_from', 'date_to', 'hours_per_day')
     def _check_dates(self):
@@ -40,18 +43,27 @@ class EmsAllocation(models.Model):
         for rec in self:
             rec.week_start = rec.date_from - timedelta(days=rec.date_from.weekday()) if rec.date_from else False
 
-    @api.depends('date_from', 'date_to', 'hours_per_day')
+    @api.depends('date_from', 'date_to', 'hours_per_day', 'employee_id')
     def _compute_hours(self):
         for rec in self:
-            days = 0
-            if rec.date_from and rec.date_to and rec.date_to >= rec.date_from:
-                day = rec.date_from
-                while day <= rec.date_to:
-                    if day.weekday() < 5:  # Mon-Fri; public holidays are handled by the planner users
-                        days += 1
-                    day += timedelta(days=1)
+            days = rec.employee_id._ems_working_days(rec.date_from, rec.date_to) if rec.employee_id else 0
             rec.days = days
             rec.hours = days * rec.hours_per_day
+
+    @api.depends('hours_per_day')
+    def _compute_hours_per_week(self):
+        for rec in self:
+            rec.hours_per_week = rec.hours_per_day * 5.0
+
+    def _inverse_hours_per_week(self):
+        for rec in self:
+            rec.hours_per_day = rec.hours_per_week / 5.0
+
+    @api.depends('hours_per_day', 'employee_id.ems_hours_week')
+    def _compute_engagement(self):
+        for rec in self:
+            capacity = (rec.employee_id.ems_hours_week or 40.0) / 5.0
+            rec.engagement_pct = rec.hours_per_day / capacity * 100.0 if capacity else 0.0
 
     @api.depends('hours', 'employee_id.ems_grade_id.cost_rate', 'employee_id.ems_cost_rate')
     def _compute_cost(self):
@@ -77,3 +89,8 @@ class EmsAllocation(models.Model):
     def _onchange_service_id(self):
         if self.service_id and not self.project_id:
             self.project_id = self.service_id.project_id
+
+    def _ems_count_days(self, date_from, date_to):
+        """Working days between two dates for this employee: calendar, public holidays and approved leave."""
+        self.ensure_one()
+        return self.employee_id._ems_working_days(date_from, date_to)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Pilot: baseline links and P0-P7 WBS on the SOL project -->
+    <record id="ems_base.project_szr" model="project.project">
+        <field name="ems_ntp_date">2025-09-09</field>
+        <field name="allow_timesheets" eval="True"/>
+    </record>
+    <function model="project.project" name="_ems_ensure_analytic_account" eval="[[ref('ems_base.project_szr')]]"/>
+    <function model="project.project" name="action_ems_apply_wbs" eval="[[ref('ems_base.project_szr')]]"/>
+
+    <!-- UAT H: PBSD variation needs signed client approval before revenue increases -->
+    <record id="variation_pbsd" model="ems.variation">
+        <field name="project_id" ref="ems_base.project_szr"/>
+        <field name="title">Performance based seismic design (PBSD) review</field>
+        <field name="reason">Independent premium modelling outside the awarded review items 1-7. Proposed as a variation, not absorbed in the base fee.</field>
+        <field name="amount">40000</field>
+        <field name="added_budget">22000</field>
+        <field name="added_days">14</field>
+        <field name="state">submitted</field>
+    </record>
+
+    <!-- UAT G: office printer is overhead, not a project cost -->
+    <record id="vendor_office" model="res.partner">
+        <field name="name">Demo Office Supplies LLC</field>
+        <field name="is_company" eval="True"/>
+        <field name="supplier_rank">1</field>
+    </record>
+    <record id="po_printer" model="purchase.order">
+        <field name="partner_id" ref="vendor_office"/>
+        <field name="ems_overhead" eval="True"/>
+    </record>
+    <record id="po_printer_line" model="purchase.order.line">
+        <field name="order_id" ref="po_printer"/>
+        <field name="name">Office printer (overhead)</field>
+        <field name="product_qty">1</field>
+        <field name="price_unit">1800</field>
+    </record>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_ems_finance" model="ir.ui.view">
+        <field name="name">purchase.order.form.ems.finance</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="ems_register.purchase_order_form_ems"/>
+        <field name="arch" type="xml">
+            <field name="ems_project_id" position="attributes">
+                <attribute name="invisible">ems_overhead</attribute>
+                <attribute name="required">not ems_overhead and state not in ('draft', 'sent')</attribute>
+            </field>
+            <field name="ems_project_id" position="after">
+                <field name="ems_overhead"/>
+                <field name="ems_billed_amount" invisible="state not in ('purchase', 'done')"/>
+                <field name="ems_open_amount" invisible="state not in ('purchase', 'done')"/>
+            </field>
+        </field>
+    </record>
+    <record id="purchase_order_search_ems_finance" model="ir.ui.view">
+        <field name="name">purchase.order.search.ems.finance</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="ems_overhead" string="Office Overhead" domain="[('ems_overhead', '=', True)]"/>
+                <filter name="ems_project" string="Project POs" domain="[('ems_project_id', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_ems_commitments" model="ir.actions.act_window">
+        <field name="name">Vendor Commitments</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form,pivot</field>
+        <field name="domain">[('state', 'in', ('purchase', 'done'))]</field>
+        <field name="context">{'search_default_ems_project': 1}</field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_finance_root" name="EMS Economics" sequence="60"
+              groups="ems_base.group_ems_user" web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_fin_awards" name="Awards (Baseline)" parent="menu_ems_finance_root" action="sale.action_orders" sequence="10"/>
+    <menuitem id="menu_ems_fin_variations" name="Variations" parent="menu_ems_finance_root" action="action_ems_variations" sequence="20"/>
+    <menuitem id="menu_ems_fin_timesheets" name="Timesheets" parent="menu_ems_finance_root" sequence="30"/>
+    <menuitem id="menu_ems_fin_ts_mine" name="My Timesheets" parent="menu_ems_fin_timesheets" action="action_ems_timesheets" sequence="10"/>
+    <menuitem id="menu_ems_fin_ts_approve" name="To Approve" parent="menu_ems_fin_timesheets" action="action_ems_timesheets_approve" sequence="20"
+              groups="ems_base.group_ems_manager"/>
+    <menuitem id="menu_ems_fin_commitments" name="Vendor Commitments" parent="menu_ems_finance_root" action="action_ems_commitments" sequence="40"/>
+    <menuitem id="menu_ems_fin_economics" name="Project Economics" parent="menu_ems_finance_root" action="action_ems_profit_snapshot" sequence="50"
+              groups="ems_base.group_ems_rates"/>
+    <menuitem id="menu_ems_fin_ar" name="AR Aging" parent="menu_ems_finance_root" action="action_ems_ar_aging" sequence="60"/>
+    <menuitem id="menu_ems_fin_wbs" name="WBS Template" parent="ems_base.menu_ems_config_root" action="action_ems_wbs_template" sequence="40"
+              groups="ems_base.group_ems_admin"/>
+</odoo>

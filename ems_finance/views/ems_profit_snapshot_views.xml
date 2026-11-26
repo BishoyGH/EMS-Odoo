@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_profit_snapshot_list" model="ir.ui.view">
+        <field name="name">ems.profit.snapshot.list</field>
+        <field name="model">ems.profit.snapshot</field>
+        <field name="arch" type="xml">
+            <list string="Profit Snapshots" create="0">
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="contracted" sum="Total"/>
+                <field name="invoiced" sum="Total"/>
+                <field name="collected" sum="Total"/>
+                <field name="actual_labour" sum="Total" optional="show"/>
+                <field name="vendor_billed" sum="Total" optional="show"/>
+                <field name="open_commitment" sum="Total" optional="show"/>
+                <field name="eac" sum="Total"/>
+                <field name="forecast_margin" sum="Total"/>
+                <field name="forecast_margin_pct" widget="percentage" optional="show"/>
+                <field name="margin_after_overhead" sum="Total" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_ems_profit_snapshot_graph" model="ir.ui.view">
+        <field name="name">ems.profit.snapshot.graph</field>
+        <field name="model">ems.profit.snapshot</field>
+        <field name="arch" type="xml">
+            <graph string="Margin" type="bar">
+                <field name="project_id"/>
+                <field name="contracted" type="measure"/>
+                <field name="eac" type="measure"/>
+                <field name="forecast_margin" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_ems_profit_snapshot_pivot" model="ir.ui.view">
+        <field name="name">ems.profit.snapshot.pivot</field>
+        <field name="model">ems.profit.snapshot</field>
+        <field name="arch" type="xml">
+            <pivot string="Profit Snapshots">
+                <field name="project_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="forecast_margin" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_ems_profit_snapshot_search" model="ir.ui.view">
+        <field name="name">ems.profit.snapshot.search</field>
+        <field name="model">ems.profit.snapshot</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id"/><field name="partner_id"/>
+                <filter name="latest" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <group><filter name="grp_project" string="Project" context="{'group_by': 'project_id'}"/>
+                       <filter name="grp_date" string="Date" context="{'group_by': 'date:week'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_ems_profit_snapshot" model="ir.actions.act_window">
+        <field name="name">Project Economics</field>
+        <field name="res_model">ems.profit.snapshot</field>
+        <field name="view_mode">list,graph,pivot</field>
+    </record>
+    <record id="server_action_ems_snapshot_all" model="ir.actions.server">
+        <field name="name">Refresh Project Economics</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="state">code</field>
+        <field name="code">
+records = env['project.project'].search([('ems_closed', '=', False), ('ems_total_value', '>', 0)])
+env['ems.profit.snapshot']._take(records)
+action = env.ref('ems_finance.action_ems_profit_snapshot').read()[0]
+        </field>
+    </record>
+</odoo>

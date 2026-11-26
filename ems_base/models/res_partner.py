@@ -16,3 +16,6 @@ class ResPartner(models.Model):
     ems_licence_expiry = fields.Date('Licence Expiry')
     ems_client_payment_days = fields.Integer('Client Payment Days', default=30)
     ems_profile = fields.Text('Profile / Notes')
+
+    ems_document_ids = fields.One2many(
+        'ems.document', 'res_id', string='Documents', domain=[('res_model', '=', 'res.partner')])

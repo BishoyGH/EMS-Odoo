@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="rule_bid" model="ems.approval.rule">
+        <field name="gate">bid</field><field name="group_id" ref="ems_base.group_ems_manager"/>
+    </record>
+    <record id="rule_baseline" model="ems.approval.rule">
+        <field name="gate">baseline</field><field name="group_id" ref="ems_base.group_ems_admin"/>
+    </record>
+    <record id="rule_po" model="ems.approval.rule">
+        <field name="gate">po</field><field name="group_id" ref="ems_base.group_ems_manager"/>
+        <field name="no_self_approval" eval="False"/>
+    </record>
+    <record id="rule_po_large" model="ems.approval.rule">
+        <field name="gate">po</field><field name="min_amount">50000</field>
+        <field name="group_id" ref="ems_base.group_ems_admin"/>
+    </record>
+    <record id="rule_variation" model="ems.approval.rule">
+        <field name="gate">variation</field><field name="group_id" ref="ems_base.group_ems_manager"/>
+    </record>
+    <record id="rule_timesheet" model="ems.approval.rule">
+        <field name="gate">timesheet</field><field name="group_id" ref="ems_base.group_ems_manager"/>
+    </record>
+    <record id="rule_closure" model="ems.approval.rule">
+        <field name="gate">closure</field><field name="group_id" ref="ems_base.group_ems_manager"/>
+    </record>
+</odoo>

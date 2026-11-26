@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ems_finance" model="ir.ui.view">
+        <field name="name">res.config.settings.form.ems.finance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="EMS Economics" name="ems_finance" groups="ems_base.group_ems_admin">
+                    <block title="Project economics">
+                        <setting string="Overhead allocation" help="Optional overhead as % of contracted revenue. Margin is always shown before and after overhead.">
+                            <field name="ems_overhead_pct"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

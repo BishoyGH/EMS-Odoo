@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ems_award_wizard_form" model="ir.ui.view">
+        <field name="name">ems.award.wizard.form</field>
+        <field name="model">ems.award.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Award from Signed PO">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        The award, not the proposal, becomes the contract baseline. Items you untick stay excluded
+                        from revenue. Confirming creates the sales order, the project, its analytic account,
+                        the WBS P0-P7 and the billing milestones.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lead_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="po_ref"/>
+                            <field name="po_date"/>
+                            <field name="ntp_date"/>
+                        </group>
+                    </group>
+                    <separator string="Scope"/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="awarded"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="awarded_total" string="Awarded (contract baseline)"/>
+                        <field name="excluded_total" string="Not awarded (excluded)"/>
+                    </group>
+                    <separator string="Billing Milestones (released by trigger evidence)"/>
+                    <field name="stage_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="percent" sum="Total %"/>
+                            <field name="trigger"/>
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" string="Create Award and Project" type="object" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
