@@ -28,4 +28,7 @@
         <field name="name">EMS: Administrator</field>
         <field name="implied_ids" eval="[(4, ref('group_ems_manager')), (4, ref('group_ems_rates'))]"/>
     </record>
+    <!-- The administrator can use every EMS app straight after installation -->
+    <function model="res.users" name="write"
+              eval="[[ref('base.user_admin')], {'group_ids': [(4, ref('ems_base.group_ems_admin'))]}]"/>
 </odoo>

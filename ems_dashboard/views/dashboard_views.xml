@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_ems_dash_register" model="ir.actions.client">
+        <field name="name">Register overview</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'register'}</field>
+    </record>
+    <record id="action_ems_dash_payments" model="ir.actions.client">
+        <field name="name">Payments</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'payments'}</field>
+    </record>
+    <record id="action_ems_dash_proposals" model="ir.actions.client">
+        <field name="name">CRM funnel</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'proposals'}</field>
+    </record>
+    <record id="action_ems_dash_portfolio" model="ir.actions.client">
+        <field name="name">Portfolio</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'portfolio'}</field>
+    </record>
+    <record id="action_ems_dash_resource" model="ir.actions.client">
+        <field name="name">Resources</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'resource'}</field>
+    </record>
+    <record id="action_ems_dash_economics" model="ir.actions.client">
+        <field name="name">Project economics</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'economics'}</field>
+    </record>
+    <record id="action_ems_dash_finance" model="ir.actions.client">
+        <field name="name">Finance</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'finance'}</field>
+    </record>
+    <record id="action_ems_dash_audit" model="ir.actions.client">
+        <field name="name">Audit and controls</field>
+        <field name="tag">ems_dashboard</field>
+        <field name="context">{'ems_dashboard_kind': 'audit'}</field>
+    </record>
+</odoo>

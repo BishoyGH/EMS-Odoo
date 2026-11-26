@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <div t-name="ems_planning.Planner" class="o_action o_ems_planner">
+        <div class="o_ems_planner_bar">
+            <div>
+                <h1 class="o_ems_planner_title">Planner</h1>
+                <div class="text-muted">Drag a bar to another person or week. Hours exclude leave and public holidays.</div>
+            </div>
+            <div class="o_ems_planner_nav">
+                <button class="btn btn-secondary" t-on-click="() => this.shift(-4)" title="Back 4 weeks"><i class="fa fa-angle-double-left"/></button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(-1)" title="Previous week"><i class="fa fa-angle-left"/></button>
+                <button class="btn btn-primary" t-on-click="this.today">Today</button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(1)" title="Next week"><i class="fa fa-angle-right"/></button>
+                <button class="btn btn-secondary" t-on-click="() => this.shift(4)" title="Forward 4 weeks"><i class="fa fa-angle-double-right"/></button>
+                <select class="form-select o_ems_planner_weeks" t-on-change="(ev) => this.setWeeks(parseInt(ev.target.value))">
+                    <option value="4" t-att-selected="this.state.weeks === 4">4 weeks</option>
+                    <option value="8" t-att-selected="this.state.weeks === 8">8 weeks</option>
+                    <option value="12" t-att-selected="this.state.weeks === 12">12 weeks</option>
+                </select>
+            </div>
+        </div>
+        <div t-if="this.state.loading and !this.state.data" class="p-5 text-muted">Loading planner...</div>
+        <div t-if="this.state.data" class="o_ems_planner_scroll">
+            <table class="o_ems_planner_grid">
+                <thead>
+                    <tr>
+                        <th class="o_ems_planner_person">Person</th>
+                        <t t-foreach="this.state.data.weeks" t-as="week" t-key="week.index">
+                            <th t-attf-class="o_ems_planner_week {{ week.is_current ? 'o_ems_week_current' : '' }}">
+                                <div t-out="week.label"/>
+                                <div class="o_ems_week_dates"><t t-out="week.start.slice(5)"/></div>
+                            </th>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="this.state.data.rows" t-as="row" t-key="row.id">
+                        <th class="o_ems_planner_person">
+                            <div class="o_ems_person_name" t-out="row.name"/>
+                            <div class="o_ems_person_sub text-muted"><t t-out="row.code"/> <t t-if="row.title">- <t t-out="row.title"/></t> (<t t-out="row.capacity"/> h/week)</div>
+                        </th>
+                        <td t-foreach="row.cells" t-as="cell" t-key="cell.index"
+                            t-attf-class="o_ems_planner_cell {{ this.loadClass(cell) }} {{ this.state.overKey === row.id + '-' + cell.index ? 'o_ems_cell_over' : '' }}"
+                            t-on-dragover="(ev) => this.onDragOver(ev, row, cell)"
+                            t-on-drop="(ev) => this.onDrop(ev, row, cell)">
+                            <div t-foreach="cell.chips" t-as="chip" t-key="chip.id"
+                                 t-attf-class="o_ems_chip {{ chip.tentative ? 'o_ems_chip_tentative' : '' }}"
+                                 t-attf-style="{{ this.chipStyle(chip) }}"
+                                 draggable="true"
+                                 t-att-title="chip.project + ' - ' + chip.name + ' (' + chip.from + ' to ' + chip.to + ')'"
+                                 t-on-dragstart="(ev) => this.onDragStart(ev, chip, cell.index)"
+                                 t-on-dragend="this.onDragEnd"
+                                 t-on-click="() => this.openChip(chip)">
+                                <span class="o_ems_chip_code" t-out="chip.code"/>
+                                <span class="o_ems_chip_hours"><t t-out="chip.hours"/> h</span>
+                            </div>
+                            <div class="o_ems_cell_foot">
+                                <span t-if="cell.total" class="o_ems_cell_total"><t t-out="cell.total"/> h - <t t-out="cell.pct"/>%</span>
+                                <button class="o_ems_cell_add btn btn-link btn-sm p-0" t-on-click="() => this.addAllocation(row, cell)" title="Add allocation">+</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</templates>

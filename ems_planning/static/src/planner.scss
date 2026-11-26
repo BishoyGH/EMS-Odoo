@@ -1,0 +1,91 @@
+.o_ems_planner {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: var(--body-bg, #f6f7f9);
+    padding: 20px 24px 40px;
+
+    .o_ems_planner_bar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+    .o_ems_planner_title { font-size: 1.6rem; font-weight: 600; margin: 0; }
+    .o_ems_planner_nav { display: flex; gap: 6px; align-items: center; }
+    .o_ems_planner_weeks { width: auto; }
+    .o_ems_planner_scroll {
+        overflow: auto;
+        background: var(--card-bg, #fff);
+        border: 1px solid rgba(0, 0, 0, .08);
+        border-radius: 8px;
+    }
+    .o_ems_planner_grid {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+    .o_ems_planner_grid th, .o_ems_planner_grid td {
+        border-bottom: 1px solid rgba(0, 0, 0, .06);
+        border-right: 1px solid rgba(0, 0, 0, .05);
+        vertical-align: top;
+    }
+    .o_ems_planner_person {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background: var(--card-bg, #fff);
+        width: 220px;
+        min-width: 220px;
+        padding: 8px 12px;
+        text-align: start;
+    }
+    .o_ems_person_name { font-weight: 600; }
+    .o_ems_person_sub { font-size: .75rem; }
+    .o_ems_planner_week {
+        min-width: 130px;
+        text-align: center;
+        padding: 6px 4px;
+        background: rgba(31, 56, 100, .05);
+        font-size: .85rem;
+    }
+    .o_ems_week_dates { font-weight: 400; font-size: .72rem; color: var(--text-muted, #6c757d); }
+    .o_ems_week_current { background: rgba(46, 85, 151, .18); }
+    .o_ems_planner_cell {
+        padding: 4px;
+        min-height: 78px;
+        height: 78px;
+        transition: background .12s ease;
+    }
+    .o_ems_cell_over { background: rgba(46, 85, 151, .15); outline: 2px dashed #2e5597; outline-offset: -2px; }
+    .o_ems_load_ok { background: rgba(27, 127, 75, .06); }
+    .o_ems_load_high { background: rgba(184, 110, 0, .12); }
+    .o_ems_load_over { background: rgba(192, 57, 43, .16); }
+    .o_ems_chip {
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        border-radius: 4px;
+        padding: 2px 6px;
+        margin-bottom: 3px;
+        font-size: .78rem;
+        cursor: grab;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .08);
+        &:active { cursor: grabbing; }
+    }
+    .o_ems_chip_tentative { opacity: .65; border-style: dashed; }
+    .o_ems_chip_code { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .o_ems_chip_hours { font-variant-numeric: tabular-nums; }
+    .o_ems_cell_foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .72rem;
+        color: var(--text-muted, #6c757d);
+    }
+    .o_ems_cell_add { opacity: 0; font-weight: 700; text-decoration: none; }
+    .o_ems_planner_cell:hover .o_ems_cell_add { opacity: 1; }
+}

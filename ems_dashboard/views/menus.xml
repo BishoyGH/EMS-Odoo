@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ems_dash_root" name="EMS Dashboards" sequence="5" groups="ems_base.group_ems_user"
+              web_icon="ems_base,static/description/icon.png"/>
+    <menuitem id="menu_ems_dash_register" name="Register overview" parent="menu_ems_dash_root" action="action_ems_dash_register" sequence="10"/>
+    <menuitem id="menu_ems_dash_proposals" name="CRM funnel" parent="menu_ems_dash_root" action="action_ems_dash_proposals" sequence="20"/>
+    <menuitem id="menu_ems_dash_portfolio" name="Portfolio" parent="menu_ems_dash_root" action="action_ems_dash_portfolio" sequence="30"/>
+    <menuitem id="menu_ems_dash_resource" name="Resources" parent="menu_ems_dash_root" action="action_ems_dash_resource" sequence="40"/>
+    <menuitem id="menu_ems_dash_economics" name="Project economics" parent="menu_ems_dash_root" action="action_ems_dash_economics" sequence="50"
+              groups="ems_base.group_ems_rates"/>
+    <menuitem id="menu_ems_dash_payments" name="Payments" parent="menu_ems_dash_root" action="action_ems_dash_payments" sequence="60"/>
+    <menuitem id="menu_ems_dash_finance" name="Finance" parent="menu_ems_dash_root" action="action_ems_dash_finance" sequence="70"
+              groups="ems_base.group_ems_manager"/>
+    <menuitem id="menu_ems_dash_audit" name="Audit and controls" parent="menu_ems_dash_root" action="action_ems_dash_audit" sequence="80"
+              groups="ems_base.group_ems_admin"/>
+
+    <!-- Also first entry in each app: the new dashboards; the old pivot/graph screens become "Analysis" -->
+    <menuitem id="menu_ems_reg_overview" name="Overview" parent="ems_register.menu_ems_register_root" action="action_ems_dash_register" sequence="1"/>
+    <menuitem id="menu_ems_pay_overview" name="Overview" parent="ems_payments.menu_ems_payments_root" action="action_ems_dash_payments" sequence="1"/>
+    <record id="ems_payments.menu_ems_pay_dashboard" model="ir.ui.menu"><field name="name">Analysis</field></record>
+</odoo>
