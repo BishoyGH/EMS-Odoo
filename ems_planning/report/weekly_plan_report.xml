@@ -8,27 +8,32 @@
     </record>
     <template id="report_weekly_plan">
         <t t-call="web.html_container">
-            <t t-call="web.external_layout">
-                <div class="page">
-                    <h2>Weekly Plan: <span t-out="start"/> to <span t-out="end"/></h2>
-                    <t t-foreach="by_employee.items()" t-as="item">
-                        <h4 t-out="item[0].name"/>
-                        <table class="table table-sm">
-                            <thead><tr><th>Project</th><th>Action</th><th>From</th><th>To</th><th class="text-end">h/day</th></tr></thead>
-                            <tbody>
-                                <tr t-foreach="item[1]" t-as="a">
-                                    <td><span t-out="a.project_id.display_name"/></td>
-                                    <td><span t-out="a.name"/><t t-if="a.tentative"> (tentative)</t></td>
-                                    <td><span t-out="a.date_from"/></td>
-                                    <td><span t-out="a.date_to"/></td>
-                                    <td class="text-end"><span t-out="a.hours_per_day"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </t>
-                    <p t-if="not by_employee">No allocations this week.</p>
-                </div>
+            <t t-foreach="plans" t-as="plan">
+                    <t t-set="company" t-value="env.company"/>
+                    <t t-set="doc_title">WEEKLY ACTION PLAN</t>
+                    <t t-set="doc_ref">W<span t-out="week_no"/> · <span t-out="start" t-options="{'widget': 'date'}"/> – <span t-out="end" t-options="{'widget': 'date'}"/> · <span t-out="plan['employee'].name"/></t>
+                <t t-call="ems_base.ems_report_page">
+                    <table class="ems-grid">
+                        <thead><tr><th>Project</th><th>Cost code / milestone</th><th>Action</th>
+                            <th t-foreach="days" t-as="d" class="ems-num"><span t-out="d" t-options="{'widget': 'date', 'format': 'EEE'}"/></th><th class="ems-num">Hours</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="plan['rows']" t-as="r">
+                                <td t-out="r['alloc'].project_id.display_name"/>
+                                <td><t t-if="r['alloc'].service_id" t-out="r['alloc'].service_id.display_name"/><t t-if="r['alloc'].milestone_id"> · <span t-out="r['alloc'].milestone_id.name"/></t><t t-if="not r['alloc'].service_id and not r['alloc'].milestone_id">—</t></td>
+                                <td><span t-out="r['alloc'].name"/><t t-if="r['alloc'].tentative"> (tentative)</t></td>
+                                <td t-foreach="r['cells']" t-as="c" class="ems-num"><t t-if="c" t-out="'%g' % c"/></td>
+                                <td class="ems-num" t-out="'%g' % r['hours']"/>
+                            </tr>
+                            <tr><td colspan="8" class="ems-num"><strong>Total planned</strong></td><td class="ems-num"><strong><span t-out="'%g' % plan['total']"/> h</strong></td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Capacity:</strong> <span t-out="'%g' % plan['capacity']"/> h · <strong>Leave:</strong> <t t-out="plan['leave'] or 'none'"/> · <strong>Milestones due this week:</strong> <t t-out="plan['milestones'] or 'none'"/></p>
+                    <p t-if="plan['next']"><strong>Next week (W<span t-out="next_week_no"/>):</strong> <span t-out="plan['next']"/></p>
+                    <p class="ems-muted">Generated from EMS Planning · <span t-out="now" t-options="{'widget': 'datetime'}"/></p>
+                    <div class="ems-pagebreak"/>
+                </t>
             </t>
+            <p t-if="not plans">No allocations this week.</p>
         </t>
     </template>
 </odoo>

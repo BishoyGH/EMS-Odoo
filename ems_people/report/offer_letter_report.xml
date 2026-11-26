@@ -12,31 +12,39 @@
     <template id="report_ems_offer">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <p><span t-field="o.offer_date"/></p>
-                        <p>Dear <strong t-out="o.candidate"/>,</p>
-                        <h3>Offer of employment: <span t-field="o.job_id"/></h3>
-                        <div t-field="o.letter_body"/>
-                        <table class="table table-sm">
-                            <tr><td>Proposed start date</td><td><span t-field="o.start_date"/></td></tr>
-                            <tr><td>Probation</td><td><span t-field="o.probation_months"/> months</td></tr>
-                            <tr><td>Notice period</td><td><span t-field="o.notice_days"/> days</td></tr>
-                            <tr><td>Annual leave</td><td><span t-field="o.leave_days"/> days</td></tr>
-                            <tr><td>Air ticket</td><td><span t-field="o.air_ticket"/></td></tr>
-                        </table>
-                        <t t-if="env.user.has_group('ems_base.group_ems_rates')">
-                            <table class="table table-sm">
-                                <tr><td>Basic</td><td class="text-end"><span t-field="o.salary_basic"/></td></tr>
-                                <tr><td>Housing</td><td class="text-end"><span t-field="o.salary_housing"/></td></tr>
-                                <tr><td>Transport</td><td class="text-end"><span t-field="o.salary_transport"/></td></tr>
-                                <tr><td>Other</td><td class="text-end"><span t-field="o.salary_other"/></td></tr>
-                                <tr><th>Total monthly</th><th class="text-end"><span t-field="o.salary_total"/></th></tr>
-                            </table>
+                    <t t-set="company" t-value="o.company_id"/>
+                    <t t-set="doc_title">OFFER OF EMPLOYMENT</t>
+                    <t t-set="doc_ref"><span t-out="o.name"/> · <span t-out="o.offer_date" t-options="{'widget': 'date'}"/></t>
+                <t t-call="ems_base.ems_report_page">
+                    <p>Dear <t t-out="o.candidate"/>,</p>
+                    <p>We are pleased to offer you the position of <strong t-out="o.job_id.name"/>
+                        <t t-if="o.department_id"> in our <span t-out="o.department_id.name"/> department</t>
+                        <t t-if="o.manager_id">, reporting to <span t-out="o.manager_id.name"/></t>, on the following terms:</p>
+                    <div t-if="not is_html_empty(o.letter_body)" t-out="o.letter_body"/>
+                    <table class="ems-grid">
+                        <tr><th style="width:30%">Start date</th><td><span t-out="o.start_date" t-options="{'widget': 'date'}"/></td></tr>
+                        <tr><th>Probation</th><td><span t-out="o.probation_months"/> months</td></tr>
+                        <tr t-if="env.user.has_group('ems_base.group_ems_rates')">
+                            <th>Monthly package (gross)</th>
+                            <td>Basic <span t-out="o.salary_basic" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> ·
+                                Housing <span t-out="o.salary_housing" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> ·
+                                Transport <span t-out="o.salary_transport" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> ·
+                                <t t-if="o.salary_other">Other <span t-out="o.salary_other" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> · </t>
+                                <strong>Total <span t-out="o.salary_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></strong></td>
+                        </tr>
+                        <tr><th>Annual leave</th><td><span t-out="o.leave_days"/> calendar days per year</td></tr>
+                        <tr><th>Benefits</th><td><t t-if="o.air_ticket">Air ticket: <span t-out="o.air_ticket"/>. </t><span t-out="o.benefits"/></td></tr>
+                        <tr><th>Notice period</th><td><span t-out="o.notice_days"/> days</td></tr>
+                        <tr t-if="o.non_compete"><th>Non-compete</th><td>Applies, as set out in the employment contract.</td></tr>
+                    </table>
+                    <t t-if="not is_html_empty(o.job_description)"><p><strong>Job description.</strong></p><div t-out="o.job_description"/></t>
+                    <p t-if="o.valid_until">This offer is valid until <span t-out="o.valid_until" t-options="{'widget': 'date'}"/>. Please sign and return a copy to confirm your acceptance.</p>
+                    <div style="margin-top:30px; page-break-inside: avoid">
+                            <t t-set="left_note"><span t-out="o.signatory_id.name"/></t>
+                            <t t-set="right_title">Accepted by the candidate</t>
+                            <t t-set="right_note">Signature / date</t>
+                        <t t-call="ems_base.ems_signature_block">
                         </t>
-                        <h4>Job description</h4>
-                        <div t-field="o.job_description"/>
-                        <p class="mt-5">Yours sincerely,<br/><span t-field="o.signatory_id"/></p>
                     </div>
                 </t>
             </t>

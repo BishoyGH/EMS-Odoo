@@ -12,24 +12,35 @@
     <template id="report_ems_statement">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="partner">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2>Statement of Account</h2>
-                        <p><strong t-field="partner.name"/></p>
-                        <t t-set="invoices" t-value="env['account.move'].search([('partner_id', '=', partner.id), ('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial'))], order='invoice_date_due')"/>
-                        <table class="table table-sm">
-                            <thead><tr><th>Invoice</th><th>Project</th><th>Date</th><th>Due</th><th class="text-end">Outstanding</th></tr></thead>
-                            <tbody>
-                                <tr t-foreach="invoices" t-as="inv">
-                                    <td><span t-field="inv.name"/></td>
-                                    <td><span t-field="inv.ems_project_id"/></td>
-                                    <td><span t-field="inv.invoice_date"/></td>
-                                    <td><span t-field="inv.invoice_date_due"/></td>
-                                    <td class="text-end"><span t-field="inv.amount_residual"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <t t-set="st" t-value="statements[partner.id]"/>
+                    <t t-set="company" t-value="env.company"/>
+                    <t t-set="doc_title">CUSTOMER STATEMENT</t>
+                    <t t-set="doc_ref"><span t-out="partner.name"/> · as of <span t-out="today" t-options="{'widget': 'date'}"/></t>
+                <t t-call="ems_base.ems_report_page">
+                    <table class="ems-grid">
+                        <thead><tr><th>Project</th><th>Invoice</th><th>Date</th><th>Due</th><th class="ems-num">Amount</th><th class="ems-num">Received</th><th class="ems-num">Balance</th><th class="ems-num">Days late</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="st['rows']" t-as="r">
+                                <td t-out="r['project']"/><td t-out="r['name']"/>
+                                <td><span t-out="r['date']" t-options="{'widget': 'date'}"/></td>
+                                <td><span t-out="r['due']" t-options="{'widget': 'date'}"/></td>
+                                <td class="ems-num"><span t-out="r['amount']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="ems-num"><span t-out="r['received']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="ems-num"><span t-out="r['balance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="ems-num"><t t-if="r['late']" t-out="r['late']"/><t t-else="">—</t></td>
+                            </tr>
+                            <tr><td colspan="6" class="ems-num"><strong>Total outstanding</strong></td>
+                                <td class="ems-num"><strong t-out="st['total']" t-options="{'widget': 'float', 'precision': 2}"/></td><td/></tr>
+                        </tbody>
+                    </table>
+                    <table class="ems-grid" style="width:70%">
+                        <tr><th>Not due</th><th>1–30</th><th>31–60</th><th>61–90</th><th>90+</th></tr>
+                        <tr><td t-foreach="st['buckets']" t-as="b" class="ems-num"><span t-out="b" t-options="{'widget': 'float', 'precision': 2}"/></td></tr>
+                    </table>
+                    <p>Please remit to <span t-out="env.company.name"/>
+                        <t t-set="bank" t-value="env.company.partner_id.bank_ids[:1]"/>
+                        <t t-if="bank"> · Bank: <span t-out="bank.bank_name"/> · IBAN: <span t-out="bank.account_number"/></t>
+                        · quoting the invoice numbers.</p>
                 </t>
             </t>
         </t>
